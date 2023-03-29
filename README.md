@@ -27,4 +27,6 @@
 <br />
 
 ## 📙 문서
-[📜 요구사항 명세서](https://github.com/Cho-SangHyun/SwipKkun/blob/main/docs/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.md)
+[📜 요구사항 명세서](https://github.com/Cho-SangHyun/SwipKkun/blob/main/docs/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.md)  
+[🖼️ 와이어프레임](https://www.figma.com/file/ooHzweTXnDmaTvVdKJiS9A/Untitled?node-id=1%3A63&t=PpXz93oIH7peLe2x-1)  
+[📰 ER 다이어그램](docs/ER다이어그램.md)
