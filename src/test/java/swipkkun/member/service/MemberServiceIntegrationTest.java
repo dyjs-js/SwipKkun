@@ -29,7 +29,7 @@ class MemberServiceIntegrationTest {
             member.setPhone("010-2134-4321");
 
             memberService.signup(member);
-            Member joinedMember = memberService.findByEmail("test@google.com").get();
+            Member joinedMember = memberService.findByEmail("test@google.com");
 
             assertThat(joinedMember.getEmail()).isEqualTo(member.getEmail());
         }

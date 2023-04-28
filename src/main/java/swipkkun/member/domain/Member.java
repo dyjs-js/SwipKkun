@@ -18,13 +18,16 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberId;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = false, unique = true)
     private String nickname;
 
+    @Column(nullable = false)
     private String phone;
 
     @CreatedDate
