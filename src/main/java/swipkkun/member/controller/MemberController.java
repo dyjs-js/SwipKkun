@@ -1,10 +1,20 @@
 package swipkkun.member.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import swipkkun.member.dto.SignupRequestDto;
+import swipkkun.member.service.MemberService;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/account")
 public class MemberController {
+    private final MemberService memberService;
 
+    @PostMapping("/signup")
+    public String signup(@RequestBody SignupRequestDto requestDto) {
+        memberService.signup(requestDto);
+        return "success";
+    }
 }
