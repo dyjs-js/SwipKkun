@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import swipkkun.member.domain.Member;
+import swipkkun.member.dto.SignupRequestDto;
 import swipkkun.member.repository.MemberRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,16 +23,16 @@ class MemberServiceIntegrationTest {
         @DisplayName("회원가입 테스트")
         @Test
         void signup() {
-            Member member = new Member();
-            member.setEmail("test@google.com");
-            member.setPassword("123213");
-            member.setNickname("구우욷");
-            member.setPhone("010-2134-4321");
+            SignupRequestDto requestDto = new SignupRequestDto();
+            requestDto.setEmail("test@google.com");
+            requestDto.setPassword("123213");
+            requestDto.setNickname("구우욷");
+            requestDto.setPhone("010-2134-4321");
 
-            memberService.signup(member);
+            memberService.signup(requestDto);
             Member joinedMember = memberService.findByEmail("test@google.com");
 
-            assertThat(joinedMember.getEmail()).isEqualTo(member.getEmail());
+            assertThat(joinedMember.getEmail()).isEqualTo(requestDto.getEmail());
         }
     }
 }
