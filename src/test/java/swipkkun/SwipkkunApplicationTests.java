@@ -1,4 +1,4 @@
-package swipkkun.swipkkun;
+package swipkkun;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
