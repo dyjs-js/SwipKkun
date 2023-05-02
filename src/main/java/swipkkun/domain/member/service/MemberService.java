@@ -1,15 +1,13 @@
-package swipkkun.member.service;
+package swipkkun.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swipkkun.member.domain.Member;
-import swipkkun.member.dto.LoginRequestDto;
-import swipkkun.member.dto.SignupRequestDto;
-import swipkkun.member.repository.MemberRepository;
-
-import java.util.Optional;
+import swipkkun.domain.member.entity.Member;
+import swipkkun.domain.member.dto.LoginRequestDto;
+import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.repository.MemberRepository;
 
 @RequiredArgsConstructor
 @Service

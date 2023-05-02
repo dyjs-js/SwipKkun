@@ -6,12 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import swipkkun.member.domain.Member;
-import swipkkun.member.dto.LoginRequestDto;
-import swipkkun.member.dto.SignupRequestDto;
-import swipkkun.member.repository.MemberRepository;
-
-import java.util.List;
+import swipkkun.domain.member.entity.Member;
+import swipkkun.domain.member.dto.LoginRequestDto;
+import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.repository.MemberRepository;
+import swipkkun.domain.member.service.MemberService;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -20,7 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 class MemberServiceIntegrationTest {
-    @Autowired MemberService memberService;
+    @Autowired
+    MemberService memberService;
     @Autowired MemberRepository memberRepository;
 
     @Nested

@@ -1,12 +1,12 @@
-package swipkkun.member.controller;
+package swipkkun.domain.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import swipkkun.member.dto.LoginRequestDto;
-import swipkkun.member.dto.SignupRequestDto;
-import swipkkun.member.service.MemberService;
+import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.service.MemberService;
+import swipkkun.domain.member.dto.LoginRequestDto;
 
 @RequiredArgsConstructor
 @RestController

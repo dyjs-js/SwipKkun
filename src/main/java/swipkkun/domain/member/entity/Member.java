@@ -1,4 +1,4 @@
-package swipkkun.member.domain;
+package swipkkun.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

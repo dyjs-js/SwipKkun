@@ -1,7 +1,7 @@
-package swipkkun.member.repository;
+package swipkkun.domain.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import swipkkun.member.domain.Member;
+import swipkkun.domain.member.entity.Member;
 
 import java.util.Optional;
 
