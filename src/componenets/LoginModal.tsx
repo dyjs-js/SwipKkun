@@ -30,7 +30,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <ModalCloseButton />
         <ModalBody>
           <VStack>
-            <Text>Swaipkkun</Text>
+            <Text>Enjoy Swipkkun</Text>
             <InputGroup>
               <InputLeftElement
                 children={
@@ -39,7 +39,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Username" />
+              <Input variant={"filled"} placeholder="Email adress" />
             </InputGroup>
             <InputGroup>
               <InputLeftElement

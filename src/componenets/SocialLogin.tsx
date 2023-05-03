@@ -19,9 +19,6 @@ export default function SocialLogin() {
       </HStack>{" "}
       <VStack>
         {" "}
-        <Button leftIcon={<FaComment />} colorScheme="yellow" w="100%">
-          Continue with KaKao
-        </Button>
         <Button leftIcon={<FaGoogle />} colorScheme="linkedin" w="100%">
           Continue with Google
         </Button>

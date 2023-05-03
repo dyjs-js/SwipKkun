@@ -4,6 +4,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,8 +14,15 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaEnvelope, FaLock, FaUserAlt, FaUserSecret } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaPhone,
+  FaUserAlt,
+  FaUserSecret,
+} from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
+import { useState } from "react";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -22,6 +30,8 @@ interface SignUpModalProps {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -30,7 +40,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
         <ModalCloseButton />
         <ModalBody>
           <VStack>
-            <Text>Swaipkkun</Text>
+            <Text>Enjoy Swipkkun</Text>
             <InputGroup>
               <InputLeftElement
                 children={
@@ -39,17 +49,61 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Name" />
+              <Input variant={"filled"} placeholder="Email adress" />
+              <InputRightElement width="4.5rem">
+                <Button color="gray.600" h="1.75rem" size="sm">
+                  Verify
+                </Button>
+              </InputRightElement>
             </InputGroup>
             <InputGroup>
               <InputLeftElement
                 children={
                   <Box color="gray.500">
-                    <FaEnvelope />
+                    <FaLock />
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Email" />
+              <Input
+                type={show ? "text" : "password"}
+                variant={"filled"}
+                placeholder="Password"
+              />
+              <InputRightElement width="4.5rem">
+                <Button
+                  color="gray.600"
+                  h="1.75rem"
+                  size="sm"
+                  onClick={handleClick}
+                >
+                  {show ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <InputGroup>
+              <InputLeftElement
+                children={
+                  <Box color="gray.500">
+                    <FaLock />
+                  </Box>
+                }
+              />
+              <Input
+                type={show ? "text" : "password"}
+                variant={"filled"}
+                placeholder="Password confirm"
+                minLength={5}
+              />
+              <InputRightElement width="4.5rem">
+                <Button
+                  color="gray.600"
+                  h="1.75rem"
+                  size="sm"
+                  onClick={handleClick}
+                >
+                  {show ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
             </InputGroup>
             <InputGroup>
               <InputLeftElement
@@ -65,26 +119,22 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
               <InputLeftElement
                 children={
                   <Box color="gray.500">
-                    <FaLock />
+                    <FaPhone />
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Password" />
-            </InputGroup>
-            <InputGroup>
-              <InputLeftElement
-                children={
-                  <Box color="gray.500">
-                    <FaLock />
-                  </Box>
-                }
-              />
-              <Input variant={"filled"} placeholder="Password üũ" />
+              <Input variant={"filled"} placeholder="Phone number" />
+              <InputRightElement width="4.5rem">
+                <Button color="gray.600" h="1.75rem" size="sm">
+                  Verify
+                </Button>
+              </InputRightElement>
             </InputGroup>
           </VStack>
           <Button marginTop={4} colorScheme="teal" w="100%">
-            Log in
+            Sign up
           </Button>
+
           <SocialLogin />
         </ModalBody>
       </ModalContent>
