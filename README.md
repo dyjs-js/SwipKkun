@@ -30,6 +30,6 @@
 [📜 요구사항 명세서](https://github.com/Cho-SangHyun/SwipKkun/blob/main/docs/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.md)  
 [🎨 와이어프레임](https://www.figma.com/file/ooHzweTXnDmaTvVdKJiS9A/Untitled?node-id=1%3A63&t=PpXz93oIH7peLe2x-1)  
 [🖼️ 상세화면디자인](https://github.com/Cho-SangHyun/SwipKkun/tree/main/docs/%EC%83%81%EC%84%B8%ED%99%94%EB%A9%B4%EB%94%94%EC%9E%90%EC%9D%B8)  
-[📰 ER 다이어그램](backend/docs/ER다이어그램.md)  
+[📰 ER 다이어그램](docs/ER다이어그램.md)  
 [💻 프로젝트 관리(노션)](https://spiral-krypton-79a.notion.site/DKU-2023-SW-7-ea9e8eacba1d48afabcbd5bff3b0b5a6)
 
