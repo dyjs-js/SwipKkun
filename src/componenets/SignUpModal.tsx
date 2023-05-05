@@ -30,8 +30,13 @@ interface SignUpModalProps {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+
+  const handlePasswordClick = () => setShowPassword(!showPassword);
+  const handleConfirmPasswordClick = () =>
+    setshowConfirmPassword(!showConfirmPassword);
+
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -65,7 +70,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 }
               />
               <Input
-                type={show ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 variant={"filled"}
                 placeholder="Password"
               />
@@ -74,9 +79,9 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   color="gray.600"
                   h="1.75rem"
                   size="sm"
-                  onClick={handleClick}
+                  onClick={handlePasswordClick}
                 >
-                  {show ? "Hide" : "Show"}
+                  {showPassword ? "Hide" : "Show"}
                 </Button>
               </InputRightElement>
             </InputGroup>
@@ -89,7 +94,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 }
               />
               <Input
-                type={show ? "text" : "password"}
+                type={showConfirmPassword ? "text" : "password"}
                 variant={"filled"}
                 placeholder="Password confirm"
                 minLength={5}
@@ -99,9 +104,9 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   color="gray.600"
                   h="1.75rem"
                   size="sm"
-                  onClick={handleClick}
+                  onClick={handleConfirmPasswordClick}
                 >
-                  {show ? "Hide" : "Show"}
+                  {showConfirmPassword ? "Hide" : "Show"}
                 </Button>
               </InputRightElement>
             </InputGroup>
