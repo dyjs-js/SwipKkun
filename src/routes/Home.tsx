@@ -1,5 +1,6 @@
-import { Box, Grid, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import Article from "../componenets/Article";
+import ArticleSkeleton from "../componenets/ArticleSkeleton";
 
 export default function Home() {
   return (
@@ -19,9 +20,7 @@ export default function Home() {
       }}
     >
       <Box>
-        <Skeleton height={280} rounded={"3xl"} mb={7} />
-        <SkeletonText w="50%" noOfLines={2} mb={6} />
-        <SkeletonText w="30%" noOfLines={1} />
+        <ArticleSkeleton />
       </Box>
       <Article />
     </Grid>

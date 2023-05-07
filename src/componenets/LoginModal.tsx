@@ -39,7 +39,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Email adress" />
+              <Input variant={"filled"} placeholder="Email address" />
             </InputGroup>
             <InputGroup>
               <InputLeftElement

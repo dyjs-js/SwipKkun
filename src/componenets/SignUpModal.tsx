@@ -14,13 +14,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import {
-  FaEnvelope,
-  FaLock,
-  FaPhone,
-  FaUserAlt,
-  FaUserSecret,
-} from "react-icons/fa";
+import { FaLock, FaPhone, FaUserAlt, FaUserSecret } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useState } from "react";
 
@@ -54,7 +48,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Email adress" />
+              <Input variant={"filled"} placeholder="Email address" />
               <InputRightElement width="4.5rem">
                 <Button color="gray.600" h="1.75rem" size="sm">
                   Verify

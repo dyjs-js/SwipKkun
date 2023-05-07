@@ -51,7 +51,7 @@ export default function Header() {
         <IconButton
           color={"gray.700"}
           variant={"ghost"}
-          aria-label="Cart"
+          aria-label="Ai chat"
           icon={<GoOctoface size="30px" />}
         ></IconButton>
         <Button onClick={onLoginOpen}>Log In</Button>
