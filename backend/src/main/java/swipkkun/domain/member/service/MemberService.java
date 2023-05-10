@@ -38,11 +38,11 @@ public class MemberService {
 
         findByEmail(email)
                 .ifPresent(member -> {
-                    throw new IllegalArgumentException("이메일이 중복됩니다");
+                    throw new IllegalArgumentException("이미 사용중인 이메일입니다");
                 });
         findByNickname(nickname)
                 .ifPresent(member -> {
-                    throw new IllegalArgumentException("닉네임이 중복됩니다");
+                    throw new IllegalArgumentException("이미 사용중인 닉네임입니다");
                 });
     }
 
@@ -53,7 +53,7 @@ public class MemberService {
         }
 
         if (!passwordEncoder.matches(requestDto.getPassword(), member.get().getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 잘못됐습니다!!");
+            throw new IllegalArgumentException("비밀번호가 잘못됐습니다");
         }
     }
 
