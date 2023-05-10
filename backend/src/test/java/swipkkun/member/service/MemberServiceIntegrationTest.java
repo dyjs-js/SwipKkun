@@ -35,7 +35,7 @@ class MemberServiceIntegrationTest {
             requestDto.setPhone("010-2134-4321");
 
             memberService.signup(requestDto);
-            Member joinedMember = memberService.findByEmail("test1@google.com");
+            Member joinedMember = memberService.findByEmail("test1@google.com").get();
 
             assertThat(joinedMember.getEmail()).isEqualTo(requestDto.getEmail());
         }
