@@ -9,6 +9,7 @@ import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
 import swipkkun.domain.member.repository.MemberRepository;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -35,19 +36,23 @@ public class MemberService {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
 
-        memberRepository.findByEmail(email)
+        findByEmail(email)
                 .ifPresent(member -> {
                     throw new IllegalArgumentException("이메일이 중복됩니다");
                 });
-        memberRepository.findByNickname(nickname)
+        findByNickname(nickname)
                 .ifPresent(member -> {
                     throw new IllegalArgumentException("닉네임이 중복됩니다");
                 });
     }
 
     public void login(LoginRequestDto requestDto) {
-        Member member = findByEmail(requestDto.getEmail());
-        if (!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
+        Optional<Member> member = findByEmail(requestDto.getEmail());
+        if (member.isEmpty()) {
+            throw new IllegalArgumentException("이메일이 잘못됐습니다");
+        }
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), member.get().getPassword())) {
             throw new IllegalArgumentException("비밀번호가 잘못됐습니다!!");
         }
     }
