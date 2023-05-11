@@ -10,7 +10,7 @@ export default function Article() {
           <Image
             minH="280"
             rounded={"3xl"}
-            src="https://placehold.co/370x280"
+            src="https://placehold.co/280x280"
           ></Image>
           <Box cursor={"pointer"} position="absolute" top={5} right={5}>
             <FaRegHeart size="20px" />
@@ -33,11 +33,11 @@ export default function Article() {
           </Grid>
 
           <Text fontSize={"sm"} color="gray.500">
-            전자제품/노트북
+            전자제품/노트북 cateogry
           </Text>
         </Box>
         <Text fontSize={"sm"} color="gray.500">
-          <Text as="b">72,000 won</Text>/24hours
+          <Text as="b">price won</Text>/24hours
         </Text>
       </VStack>
     </Link>
