@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
 import swipkkun.domain.member.service.MemberService;
 
@@ -53,7 +54,7 @@ class MemberServiceIntegrationTest {
             requestDto.setNickname("너무나도 좋아용");
 
             assertThatThrownBy(() -> memberService.signup(requestDto))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberException.class)
                     .hasMessageContaining("이미 사용중인 이메일입니다");
 
         }
@@ -71,7 +72,7 @@ class MemberServiceIntegrationTest {
             requestDto.setEmail("test2@naver.com");
 
             assertThatThrownBy(() -> memberService.signup(requestDto))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberException.class)
                     .hasMessageContaining("이미 사용중인 닉네임입니다");
 
         }

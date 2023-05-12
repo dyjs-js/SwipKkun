@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.exception.ErrorCode;
+import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
-
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -38,11 +38,11 @@ public class MemberService {
 
         findByEmail(email)
                 .ifPresent(member -> {
-                    throw new IllegalArgumentException("이미 사용중인 이메일입니다");
+                    throw new MemberException(ErrorCode.USER_EMAIL_DUPLICATED, "이미 사용중인 이메일입니다");
                 });
         findByNickname(nickname)
                 .ifPresent(member -> {
-                    throw new IllegalArgumentException("이미 사용중인 닉네임입니다");
+                    throw new MemberException(ErrorCode.USER_NICKNAME_DUPLICATED, "이미 사용중인 닉네임입니다");
                 });
     }
 
