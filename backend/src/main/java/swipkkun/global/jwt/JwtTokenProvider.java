@@ -32,4 +32,9 @@ public class JwtTokenProvider {
             throw new IllegalArgumentException("토큰의 만료기간이 지났습니다");
         }
     }
+
+    public String getEmailFromToken(String token, String jwtSecretKey) {
+        return Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token)
+                .getBody().get("email", String.class);
+    }
 }

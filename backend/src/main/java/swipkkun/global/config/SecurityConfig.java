@@ -1,5 +1,7 @@
 package swipkkun.global.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,10 +10,20 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import swipkkun.domain.member.service.MemberService;
+import swipkkun.global.jwt.JwtFilter;
+import swipkkun.global.jwt.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtTokenProvider tokenProvider;
+    private final MemberService memberService;
+    @Value("${jwt.secret}")
+    private String jwtKey;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable() // CSRF 공격에 대한 방어를 해제
@@ -24,6 +36,7 @@ public class SecurityConfig {
                 .requestMatchers("/signup", "/login", "/").permitAll() // 요 세 놈에 대한 요청은 인증없이 접근 허용
                 .anyRequest().authenticated() // 나머지에 대해선 인증을 받아야 한다.
                 .and()
+                .addFilterBefore(new JwtFilter(tokenProvider, memberService, jwtKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
