@@ -1,6 +1,7 @@
 package swipkkun.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
+    @Value("${jwt.secret}")
+    private String jwtKey;
+    private Long expiredMs = 1000 * 60 * 60L; // 1000ms * 60 * 60 = 1시간
 
     public void signup(SignupRequestDto requestDto) {
         validateSignupRequest(requestDto);
@@ -49,8 +53,10 @@ public class MemberService {
                 });
     }
 
-    public void login(LoginRequestDto requestDto) {
+    public String login(LoginRequestDto requestDto) {
         validateLoginRequest(requestDto);
+        String accessToken = tokenProvider.createToken(requestDto.getEmail(), jwtKey, expiredMs);
+        return accessToken;
     }
 
     private void validateLoginRequest(LoginRequestDto requestDto) {
