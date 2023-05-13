@@ -10,6 +10,8 @@ import swipkkun.domain.member.dto.SignupRequestDto;
 import swipkkun.domain.member.exception.ErrorCode;
 import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
+import swipkkun.global.jwt.JwtTokenProvider;
+
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,9 +20,10 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
 
     public void signup(SignupRequestDto requestDto) {
-        validateDuplicate(requestDto);
+        validateSignupRequest(requestDto);
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
         Member member = new Member();
@@ -32,7 +35,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    private void validateDuplicate(SignupRequestDto requestDto) {
+    private void validateSignupRequest(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
 
@@ -47,6 +50,10 @@ public class MemberService {
     }
 
     public void login(LoginRequestDto requestDto) {
+        validateLoginRequest(requestDto);
+    }
+
+    private void validateLoginRequest(LoginRequestDto requestDto) {
         Optional<Member> member = findByEmail(requestDto.getEmail());
         if (member.isEmpty()) {
             throw new MemberException(ErrorCode.EMAIL_NOT_FOUND, "이메일이 잘못됐습니다");
