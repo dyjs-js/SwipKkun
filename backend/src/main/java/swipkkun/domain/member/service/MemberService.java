@@ -49,11 +49,11 @@ public class MemberService {
     public void login(LoginRequestDto requestDto) {
         Optional<Member> member = findByEmail(requestDto.getEmail());
         if (member.isEmpty()) {
-            throw new IllegalArgumentException("이메일이 잘못됐습니다");
+            throw new MemberException(ErrorCode.EMAIL_NOT_FOUND, "이메일이 잘못됐습니다");
         }
 
         if (!passwordEncoder.matches(requestDto.getPassword(), member.get().getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 잘못됐습니다");
+            throw new MemberException(ErrorCode.WRONG_PASSWORD, "비밀번호가 잘못됐습니다");
         }
     }
 

@@ -115,7 +115,7 @@ class MemberServiceIntegrationTest {
             loginRequestDto.setPassword("123212");
 
             assertThatThrownBy(() -> memberService.login(loginRequestDto))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberException.class)
                     .hasMessageContaining("비밀번호가 잘못됐습니다");
         }
 
@@ -135,7 +135,7 @@ class MemberServiceIntegrationTest {
             loginRequestDto.setPassword("123213");
 
             assertThatThrownBy(() -> memberService.login(loginRequestDto))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(MemberException.class)
                     .hasMessageContaining("이메일이 잘못됐습니다");
         }
     }
