@@ -1,18 +1,23 @@
 package swipkkun.domain.member.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swipkkun.domain.member.dto.TokenDTO;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
+import swipkkun.domain.member.entity.Role;
 import swipkkun.domain.member.exception.ErrorCode;
 import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
 import swipkkun.global.jwt.JwtTokenProvider;
-
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,7 +29,8 @@ public class MemberService {
     private final JwtTokenProvider tokenProvider;
     @Value("${jwt.secret}")
     private String jwtKey;
-    private Long expiredMs = 1000 * 60 * 60L; // 1000ms * 60 * 60 = 1시간
+    private final Long ACCESS_TOKEN_EXPIRED_MS = 1000 * 60 * 10L; // 1000ms * 60 * 10 = 10분
+    private final Long REFRESH_TOKEN_EXPIRED_MS = 1000 * 60 * 60 * 24 * 14L; // 1000ms * 60 * 60 * 24 * 14= 14일
 
     public void signup(SignupRequestDto requestDto) {
         validateSignupRequest(requestDto);
@@ -35,6 +41,7 @@ public class MemberService {
         member.setPassword(encodedPassword);
         member.setNickname(requestDto.getNickname());
         member.setPhone(requestDto.getPhone());
+        member.setRole(Role.USER);
 
         memberRepository.save(member);
     }
@@ -53,10 +60,20 @@ public class MemberService {
                 });
     }
 
-    public String login(LoginRequestDto requestDto) {
+    public TokenDTO login(LoginRequestDto requestDto) {
         validateLoginRequest(requestDto);
-        String accessToken = tokenProvider.createToken(requestDto.getEmail(), jwtKey, expiredMs);
-        return accessToken;
+
+        UserDetails userDetails = memberRepository.findByEmail(requestDto.getEmail()).get();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+
+        String accessToken = tokenProvider.createAccessToken(authentication, jwtKey, ACCESS_TOKEN_EXPIRED_MS);
+        String refreshToken = tokenProvider.createRefreshToken(jwtKey, REFRESH_TOKEN_EXPIRED_MS);
+
+        TokenDTO tokenDto = new TokenDTO();
+        tokenDto.setAccessToken(accessToken);
+        tokenDto.setRefreshToken(refreshToken);
+
+        return tokenDto;
     }
 
     private void validateLoginRequest(LoginRequestDto requestDto) {

@@ -7,11 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import swipkkun.domain.member.service.MemberService;
 import swipkkun.global.jwt.JwtFilter;
 import swipkkun.global.jwt.JwtTokenProvider;
 
@@ -20,7 +17,6 @@ import swipkkun.global.jwt.JwtTokenProvider;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider tokenProvider;
-    private final MemberService memberService;
     @Value("${jwt.secret}")
     private String jwtKey;
 
@@ -31,12 +27,15 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버를 stateless하게 유지 즉 세션 X
                 .and()
                 .formLogin().disable() // 시큐리티가 기본 제공하는 로그인 화면 없앰. JWT는 로그인과정을 수동으로 클래스로 만들어야 하니까
-                .httpBasic().disable() // 토큰 방식을 이용할 것이므로 보안에 취약한 HttpBasic은 꺼두기
+                .httpBasic().disable() // 토큰 방식을 이용할 것이므로 보안에 취약한 HttpBasic은 꺼두기 httpBasic : 필요할 때 단순히 username, password만으로 인증하는 방식
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한을 설정하겠다
-                .requestMatchers("/signup", "/login", "/").permitAll() // 요 세 놈에 대한 요청은 인증없이 접근 허용
-                .anyRequest().authenticated() // 나머지에 대해선 인증을 받아야 한다.
+//                .requestMatchers("/signup", "/").permitAll() // 요 세 놈에 대한 요청은 인증없이 접근 허용
+//                .requestMatchers("/login").permitAll()
+//                .anyRequest().authenticated() // 나머지에 대해선 인증을 받아야 한다.
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtFilter(tokenProvider, memberService, jwtKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(tokenProvider, jwtKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
