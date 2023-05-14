@@ -1,7 +1,9 @@
 package swipkkun.domain.member.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,5 +33,19 @@ public class MemberController {
         // refresh token은 쿠키에 담아 보낸다
         HeaderUtil.setRefreshToken(response, tokenResponse.getRefreshToken());
         return ResponseEntity.ok().body(tokenResponse);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDTO> refresh(HttpServletRequest request) {
+        String accessToken = HeaderUtil.getAccessToken(request);
+        String refreshToken = HeaderUtil.getRefreshToken(request);
+
+        TokenDTO tokenRequest = new TokenDTO();
+        tokenRequest.setAccessToken(accessToken);
+        tokenRequest.setRefreshToken(refreshToken);
+
+        TokenDTO newTokenResponse = memberService.refresh(tokenRequest);
+
+        return ResponseEntity.ok().body(newTokenResponse);
     }
 }

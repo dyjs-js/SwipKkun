@@ -87,6 +87,26 @@ public class MemberService {
         }
     }
 
+    public TokenDTO refresh(TokenDTO tokenRequest) {
+        String accessToken = tokenRequest.getAccessToken();
+        String refreshToken = tokenRequest.getRefreshToken();
+
+        try {
+            tokenProvider.validateToken(refreshToken, jwtKey);
+        } catch (IllegalArgumentException ex) {
+
+        }
+
+        Authentication authentication = tokenProvider.getAuthentication(accessToken, jwtKey);
+        String newAccessToken = tokenProvider.createAccessToken(authentication, jwtKey, ACCESS_TOKEN_EXPIRED_MS);
+
+        TokenDTO tokenResponse = new TokenDTO();
+        tokenResponse.setAccessToken(newAccessToken);
+        tokenResponse.setRefreshToken(refreshToken);
+
+        return tokenResponse;
+    }
+
     public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
