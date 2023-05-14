@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import swipkkun.domain.member.exception.ErrorCode;
+import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
 
 import java.util.Date;
@@ -56,9 +58,9 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (SignatureException e) {
-            throw new IllegalArgumentException("토큰을 만들 때 쓰인 키가 아닙니다");
+            throw new SignatureException("토큰을 만들 때 쓰인 키가 아닙니다");
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("토큰의 만료기간이 지났습니다");
+            throw new MemberException(ErrorCode.TOKEN_EXPIRED, "토큰의 만료기간이 지났습니다");
         }
     }
 

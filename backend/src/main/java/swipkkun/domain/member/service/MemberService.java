@@ -29,7 +29,7 @@ public class MemberService {
     private final JwtTokenProvider tokenProvider;
     @Value("${jwt.secret}")
     private String jwtKey;
-    private final Long ACCESS_TOKEN_EXPIRED_MS = 1000 * 60 * 10L; // 1000ms * 60 * 10 = 10분
+    private final Long ACCESS_TOKEN_EXPIRED_MS = 1000 * 60 * 30L; // 1000ms * 60 * 10 = 30분
     private final Long REFRESH_TOKEN_EXPIRED_MS = 1000 * 60 * 60 * 24 * 14L; // 1000ms * 60 * 60 * 24 * 14= 14일
 
     public void signup(SignupRequestDto requestDto) {

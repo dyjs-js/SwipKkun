@@ -10,6 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import swipkkun.domain.member.exception.MemberException;
+
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         try {
             tokenProvider.validateToken(accessToken, jwtKey);
-        } catch (IllegalArgumentException e) {
+        } catch (MemberException e) {
             log.error("토큰 문제 있는뎁쇼");
             filterChain.doFilter(request, response);
             return;
