@@ -18,7 +18,11 @@ export default function Search() {
           icon={<FaMapMarkerAlt size="25px" />}
         ></IconButton>
       </InputLeftElement>
-      <Input variant={"filled"} placeholder="물품을 검색해보세요" />
+      <Input
+        focusBorderColor="green.600"
+        variant={"filled"}
+        placeholder="물품을 검색해보세요"
+      />
       <InputRightElement width="6rem">
         <IconButton
           color={"gray.700"}

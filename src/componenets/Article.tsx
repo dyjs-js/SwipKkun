@@ -33,11 +33,11 @@ export default function Article() {
           </Grid>
 
           <Text fontSize={"sm"} color="gray.500">
-            전자제품/노트북 cateogry
+            /////////
           </Text>
         </Box>
         <Text fontSize={"sm"} color="gray.500">
-          <Text as="b">price won</Text>/24hours
+          <Text as="b">[price] won</Text>/24hours
         </Text>
       </VStack>
     </Link>

@@ -112,7 +112,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Username" />
+              <Input variant={"filled"} placeholder="Nickname" />
             </InputGroup>
             <InputGroup>
               <InputLeftElement
