@@ -64,6 +64,11 @@ public class MemberService {
     private void validateSignupRequest(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
+        String password = requestDto.getPassword();
+
+        if (!validatePassword(password)) {
+            throw new MemberException(ErrorCode.PASSWORD_FORMAT_NOT_OBSERVED, "비밀번호는 10글자 이상이고 영문/숫자가 하나씩은 포함되어야 합니다");
+        }
 
         findByEmail(email)
                 .ifPresent(member -> {
@@ -73,6 +78,29 @@ public class MemberService {
                 .ifPresent(member -> {
                     throw new MemberException(ErrorCode.USER_NICKNAME_DUPLICATED, "이미 사용중인 닉네임입니다");
                 });
+    }
+
+    private boolean validatePassword(String password) {
+        if (password.length() >= 10) { // 문자열이 10글자 이상인지 확인
+            boolean hasLetter = false;
+            boolean hasDigit = false;
+
+            for (char ch : password.toCharArray()) {
+                if (Character.isLetter(ch)) {
+                    hasLetter = true;
+                    continue;
+                }
+                if (Character.isDigit(ch)) {
+                    hasDigit = true;
+                }
+            }
+
+            if (hasLetter && hasDigit) {
+                return true; // 영문과 숫자가 모두 들어가 있는 경우
+            }
+        }
+
+        return false; // 조건을 만족하지 않는 경우
     }
 
     public TokenDTO login(LoginRequestDto requestDto) {

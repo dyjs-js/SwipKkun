@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     USER_EMAIL_DUPLICATED(HttpStatus.CONFLICT, ""),
     USER_NICKNAME_DUPLICATED(HttpStatus.CONFLICT, ""),
+    PASSWORD_FORMAT_NOT_OBSERVED(HttpStatus.BAD_REQUEST, ""),
     EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, ""),
     WRONG_PASSWORD(HttpStatus.UNAUTHORIZED, ""),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "");
