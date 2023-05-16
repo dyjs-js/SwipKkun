@@ -1,6 +1,5 @@
 package swipkkun.domain.member.service;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,10 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import swipkkun.domain.member.dto.TokenDTO;
+import swipkkun.domain.member.dto.*;
 import swipkkun.domain.member.entity.Member;
-import swipkkun.domain.member.dto.LoginRequestDto;
-import swipkkun.domain.member.dto.SignupRequestDto;
 import swipkkun.domain.member.entity.Role;
 import swipkkun.domain.member.exception.ErrorCode;
 import swipkkun.domain.member.exception.MemberException;
@@ -44,6 +41,24 @@ public class MemberService {
         member.setRole(Role.USER);
 
         memberRepository.save(member);
+    }
+
+    public String checkEmailDuplicate(EmailDuplicateRequestDto requestDto) {
+        String email = requestDto.getEmail();
+        Optional<Member> member = findByEmail(email);
+        if (member.isPresent()) {
+            return "해당 이메일은 사용하실 수 없습니다";
+        }
+        return "사용 가능한 이메일입니다";
+    }
+
+    public String checkNicknameDuplicate(NicknameDuplicateRequestDto requestDto) {
+        String nickname = requestDto.getNickname();
+        Optional<Member> member = findByNickname(nickname);
+        if (member.isPresent()) {
+            return "해당 닉네임은 사용하실 수 없습니다";
+        }
+        return "사용 가능한 닉네임입니다";
     }
 
     private void validateSignupRequest(SignupRequestDto requestDto) {

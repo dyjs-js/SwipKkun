@@ -38,3 +38,4 @@ out/
 
 ### etc
 **/application.properties
+**/application-oauth.properties

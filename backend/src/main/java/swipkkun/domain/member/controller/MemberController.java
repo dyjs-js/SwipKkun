@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import swipkkun.domain.member.dto.SignupRequestDto;
-import swipkkun.domain.member.dto.TokenDTO;
+import swipkkun.domain.member.dto.*;
 import swipkkun.domain.member.service.MemberService;
-import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.global.util.HeaderUtil;
 
 @RequiredArgsConstructor
@@ -33,6 +31,18 @@ public class MemberController {
         HeaderUtil.setRefreshToken(response, tokenResponse.getRefreshToken());
 
         return ResponseEntity.ok().body(tokenResponse);
+    }
+
+    @PostMapping("/check-email")
+    public ResponseEntity<String> checkEmail(@RequestBody EmailDuplicateRequestDto requestDto) {
+        String checkRes = memberService.checkEmailDuplicate(requestDto);
+        return ResponseEntity.ok().body(checkRes);
+    }
+
+    @PostMapping("check-nickname")
+    public ResponseEntity<String> checkNickname(@RequestBody NicknameDuplicateRequestDto requestDto) {
+        String checkRes = memberService.checkNicknameDuplicate(requestDto);
+        return ResponseEntity.ok().body(checkRes);
     }
 
     @PostMapping("/login")
