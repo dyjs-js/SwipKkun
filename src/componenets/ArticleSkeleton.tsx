@@ -9,7 +9,6 @@ export default function ArticleSkeleton() {
         <Skeleton rounded="lg" width="15%" height={5} />
       </HStack>
       <Skeleton rounded="lg" width="40%" height={5} mb={3} />
-      <Skeleton rounded="lg" width="25%" height={5} />
     </Box>
   );
 }

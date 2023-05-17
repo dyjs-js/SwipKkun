@@ -31,10 +31,6 @@ export default function Article() {
               <Text>5.0</Text>
             </HStack>
           </Grid>
-
-          <Text fontSize={"sm"} color="gray.500">
-            /////////
-          </Text>
         </Box>
         <Text fontSize={"sm"} color="gray.500">
           <Text as="b">[price] won</Text>/24hours

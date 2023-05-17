@@ -31,7 +31,7 @@ export default function ArticlDetail() {
         </Grid>
         <Box>
           <Heading fontSize={"lg"}>
-            [삼성전자 갤럭시북2 프로360 NT950QEW-A51A NT950QEW-A51A]
+            [ 삼성전자 갤럭시북2 프로360 NT950QEW-A51A NT950QEW-A51A ]
           </Heading>
           <Text as="b">[price] won</Text>/24hours
         </Box>
@@ -41,14 +41,11 @@ export default function ArticlDetail() {
       <HStack justifyContent={"space-between"}>
         <VStack>
           <HStack>
-            <Heading fontSize={"2xl"}>[nickname]님이 대여해주는 물품</Heading>
+            <Heading fontSize={"2xl"}>[nickname]님</Heading>
             <Avatar name="nickname" size={"lg"} src={"dfdfdf"} />
-            <Avatar size={"lg"}>
-              <AvatarBadge boxSize="1.25em" bg="green.500" />
-            </Avatar>
           </HStack>
           <VStack>
-            <Text>[Detail]상품설명</Text>
+            <Text>[Detail]review detail</Text>
             <Text>[category hashtag]</Text>
           </VStack>
         </VStack>
@@ -59,7 +56,7 @@ export default function ArticlDetail() {
           <HStack>
             <FaStar />
             <Text>4.0[rating]</Text>
-            <Text>·</Text>
+            <Text>＊</Text>
             <Text>[rating.length]개의 review</Text>
           </HStack>
         </Heading>
