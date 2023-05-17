@@ -41,7 +41,7 @@ export default function Header() {
       }}
       borderBottomWidth={1}
     >
-      <Box color={"teal.500"}>
+      <Box color={"green.800"}>
         <Link to="/">
           <FaSyncAlt size={"40"} />
         </Link>
