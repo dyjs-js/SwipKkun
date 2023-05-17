@@ -61,6 +61,14 @@ public class MemberService {
         return "사용 가능한 닉네임입니다";
     }
 
+    private boolean validateNicknameFormat(String nickname) {
+        if (nickname.length() < 10 && !nickname.matches(".*[^a-zA-Z0-9].*")) { // 문자열이 10글자 미만인지 확인
+            return true;
+        }
+
+        return false; // 조건을 만족하지 않는 경우
+    }
+
     private void validateSignupRequest(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String nickname = requestDto.getNickname();
@@ -74,6 +82,11 @@ public class MemberService {
                 .ifPresent(member -> {
                     throw new MemberException(ErrorCode.USER_EMAIL_DUPLICATED, "이미 사용중인 이메일입니다");
                 });
+
+        if (!validateNicknameFormat(nickname)) {
+            throw new MemberException(ErrorCode.NICKNAME_FORMAT_NOT_OBSERVED, "닉네임은 10글자 미만이고 알파벳&숫자만 입력해야 합니다");
+        }
+
         findByNickname(nickname)
                 .ifPresent(member -> {
                     throw new MemberException(ErrorCode.USER_NICKNAME_DUPLICATED, "이미 사용중인 닉네임입니다");

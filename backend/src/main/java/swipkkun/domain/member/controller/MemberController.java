@@ -39,7 +39,7 @@ public class MemberController {
         return ResponseEntity.ok().body(checkRes);
     }
 
-    @PostMapping("check-nickname")
+    @PostMapping("/check-nickname")
     public ResponseEntity<String> checkNickname(@RequestBody NicknameDuplicateRequestDto requestDto) {
         String checkRes = memberService.checkNicknameDuplicate(requestDto);
         return ResponseEntity.ok().body(checkRes);
