@@ -7,10 +7,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FaShoppingCart, FaSyncAlt, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useRoutes } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { GoOctoface } from "react-icons/go";
+import useUser from "../lib/userUser";
 
 export default function Header() {
   const {
@@ -48,12 +49,14 @@ export default function Header() {
       </Box>
 
       <HStack>
-        <IconButton
-          color={"gray.700"}
-          variant={"ghost"}
-          aria-label="Ai chat"
-          icon={<GoOctoface size="30px" />}
-        ></IconButton>
+        <Link to="/chat" target="_blank" rel="noopener noreferrer">
+          <IconButton
+            color={"gray.700"}
+            variant={"ghost"}
+            aria-label="Ai chat"
+            icon={<GoOctoface size="30px" />}
+          ></IconButton>
+        </Link>
         <Button onClick={onLoginOpen}>Log In</Button>
         <Button onClick={onSignUpOpen} colorScheme="teal">
           Sign Up

@@ -3,6 +3,7 @@ import Root from "./componenets/Root";
 import Home from "./routes/Home";
 import { NotFound } from "./routes/NotFound";
 import ArticlDetail from "./routes/ArticleDetail";
+import Chat from "./componenets/Chat";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "articles/:articlePk",
         element: <ArticlDetail />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
       },
     ],
   },
