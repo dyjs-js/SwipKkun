@@ -1,7 +1,36 @@
-import { Box, Button, Divider, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  HStack,
+  Text,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
+import CalendarModal from "./CalendarModal";
+import { useState } from "react";
 
 export default function ReservationCalendar() {
+  const [selectedRentalDate, setSelectedRentalDate] = useState<string | null>(
+    null
+  );
+  const [selectedReturnDate, setSelectedReturnDate] = useState<string | null>(
+    null
+  );
+
+  const {
+    isOpen: isDateOpen,
+    onClose: onDateClose,
+    onOpen: onDateOpen,
+  } = useDisclosure();
+
+  const {
+    isOpen: isReturnDateOpen,
+    onClose: onReturnDateClose,
+    onOpen: onReturnDateOpen,
+  } = useDisclosure();
+
   return (
     <Box pt={10}>
       <Box
@@ -28,16 +57,32 @@ export default function ReservationCalendar() {
           border="1px solid gray"
         >
           <Box my={5} padding={3}>
-            <Button colorScheme="green.600" variant="ghost">
+            <Button
+              onClick={onDateOpen}
+              colorScheme="green.600"
+              variant="ghost"
+            >
               <VStack>
                 <Text>대여일</Text>
-                <Text>2023.03.26</Text>
+                <Text>
+                  {selectedRentalDate
+                    ? selectedRentalDate
+                    : "날짜를 선택하세요"}
+                </Text>
               </VStack>
             </Button>{" "}
-            <Button colorScheme="green.600" variant="ghost">
+            <Button
+              onClick={onReturnDateOpen}
+              colorScheme="green.600"
+              variant="ghost"
+            >
               <VStack>
                 <Text>반납일</Text>
-                <Text>2023.03.26</Text>
+                <Text>
+                  {selectedReturnDate
+                    ? selectedReturnDate
+                    : "날짜를 선택하세요"}
+                </Text>
               </VStack>
             </Button>
           </Box>
@@ -52,6 +97,8 @@ export default function ReservationCalendar() {
         <Text>72,000 X 2일 144,000원</Text>
         <Text>총 금액 144,000원</Text>
       </Box>
+      <CalendarModal isOpen={isDateOpen} onClose={onDateClose} />
+      <CalendarModal isOpen={isReturnDateOpen} onClose={onReturnDateClose} />
     </Box>
   );
 }

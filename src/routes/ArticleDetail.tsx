@@ -13,16 +13,16 @@ import {
 } from "@chakra-ui/react";
 // import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-
 import { useState } from "react";
-import ReservationCalendar from "../componenets/ReservationCalendar";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 export default function ArticleDetail() {
-  const [dates, setDates] = useState<Date>();
+  const [dates, setDates] = useState();
+  const handleDateChange = (value: any) => {
+    setDates(value);
+  };
   console.log(dates);
-  // roompk
-  // const params = useParams();
-  // console.log(params);
   return (
     <Box
       mt={10}
@@ -115,7 +115,20 @@ export default function ArticleDetail() {
           </Box>
         </Box>
 
-        <ReservationCalendar />
+        <Box mt={10}>
+          {" "}
+          <Calendar
+            minDate={new Date()}
+            maxDate={new Date(Date.now() + 60 * 60 * 24 * 7 * 4 * 6 * 1000)} //6개월동안만 검색가능
+            minDetail="year"
+            next2Label={null}
+            prev2Label={null}
+            locale="en-US"
+            onChange={handleDateChange}
+            selectRange
+          />
+          <Button>Reservation</Button>
+        </Box>
       </Grid>
     </Box>
   );

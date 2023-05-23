@@ -3,8 +3,7 @@ import Root from "./componenets/Root";
 import Home from "./routes/Home";
 import { NotFound } from "./routes/NotFound";
 import ArticlDetail from "./routes/ArticleDetail";
-import Chat from "./componenets/Chat";
-
+import Chat from "./chatComponents/Chat";
 const router = createBrowserRouter([
   {
     path: "/",
