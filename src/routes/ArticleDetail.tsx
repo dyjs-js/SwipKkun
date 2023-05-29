@@ -128,6 +128,7 @@ export default function ArticleDetail() {
             selectRange
           />
           <Button>Reservation</Button>
+          <Text></Text>
         </Box>
       </Grid>
     </Box>

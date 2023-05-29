@@ -2,11 +2,24 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: "http://localhost:8080/api/auth/",
+  withCredentials: true,
 });
+
 //api test
 export const getTest = () =>
-  instance.get("signup/").then((response) => response.data);
+  instance.get(`signup/`).then((response) => response.data);
 
-// °³ÀÎÁ¤º¸¸¦ °¡Á®¿È
+//ë‚˜ì˜ ë¡œê·¸ì¸ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 export const getMe = () =>
   instance.get(`user/me`).then((response) => response.data);
+
+//ë¡œê·¸ì•„ì›ƒ
+export const logOut = () =>
+  instance.post(`user/log-out`).then((Response) => Response.data);
+
+// const BASE_URL = "http://localhost:8080/api/auth";
+// export async function getId() {
+//   const response = await fetch(`${BASE_URL}/signup`);
+//   const json = await response.json();
+//   return json;
+// }

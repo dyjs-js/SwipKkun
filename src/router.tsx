@@ -4,6 +4,7 @@ import Home from "./routes/Home";
 import { NotFound } from "./routes/NotFound";
 import ArticlDetail from "./routes/ArticleDetail";
 import Chat from "./chatComponents/Chat";
+import UploadArticle from "./routes/UploadArticle";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "articles/upload",
+        element: <UploadArticle />,
       },
       {
         path: "articles/:articlePk",
