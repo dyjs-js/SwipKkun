@@ -17,17 +17,23 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<TokenDTO> signup(HttpServletResponse response, @RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<LoginResponseDto> signup(HttpServletResponse response, @RequestBody SignupRequestDto requestDto) {
         memberService.signup(requestDto);
 
         LoginRequestDto loginRequest = new LoginRequestDto();
         loginRequest.setEmail(requestDto.getEmail());
         loginRequest.setPassword(requestDto.getPassword());
+        MemberInfoDto memberInfo = new MemberInfoDto();
 
-        TokenDTO tokenResponse = memberService.login(loginRequest);
+        TokenDTO tokenResponse = memberService.login(loginRequest, memberInfo);
         HeaderUtil.setRefreshToken(response, tokenResponse.getRefreshToken());
 
-        return ResponseEntity.ok().body(tokenResponse);
+        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                .token(tokenResponse)
+                .memberInfo(memberInfo)
+                .build();
+
+        return ResponseEntity.ok().body(loginResponseDto);
     }
 
     @PostMapping("/check-email")
@@ -43,11 +49,18 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(HttpServletResponse response, @RequestBody LoginRequestDto requestDto) {
-        TokenDTO tokenResponse = memberService.login(requestDto);
+    public ResponseEntity<LoginResponseDto> login(HttpServletResponse response, @RequestBody LoginRequestDto requestDto) {
+        MemberInfoDto memberInfo = new MemberInfoDto();
+        TokenDTO tokenResponse = memberService.login(requestDto, memberInfo);
         // refresh token은 쿠키에 담아 보낸다
         HeaderUtil.setRefreshToken(response, tokenResponse.getRefreshToken());
-        return ResponseEntity.ok().body(tokenResponse);
+
+        LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                .token(tokenResponse)
+                .memberInfo(memberInfo)
+                .build();
+
+        return ResponseEntity.ok().body(loginResponseDto);
     }
 
     @PostMapping("/refresh")

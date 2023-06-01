@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import swipkkun.domain.member.dto.MemberInfoDto;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
@@ -95,7 +96,9 @@ class MemberServiceIntegrationTest {
             loginRequestDto.setEmail("test1@google.com");
             loginRequestDto.setPassword("123213");
 
-            assertThatCode(() -> memberService.login(loginRequestDto))
+            MemberInfoDto memberInfoDto = new MemberInfoDto();
+
+            assertThatCode(() -> memberService.login(loginRequestDto, memberInfoDto))
                     .doesNotThrowAnyException();
         }
 
@@ -114,7 +117,9 @@ class MemberServiceIntegrationTest {
             loginRequestDto.setEmail("test1@google.com");
             loginRequestDto.setPassword("123212");
 
-            assertThatThrownBy(() -> memberService.login(loginRequestDto))
+            MemberInfoDto memberInfoDto = new MemberInfoDto();
+
+            assertThatThrownBy(() -> memberService.login(loginRequestDto, memberInfoDto))
                     .isInstanceOf(MemberException.class)
                     .hasMessageContaining("비밀번호가 잘못됐습니다");
         }
@@ -134,7 +139,9 @@ class MemberServiceIntegrationTest {
             loginRequestDto.setEmail("test12@google.com");
             loginRequestDto.setPassword("123213");
 
-            assertThatThrownBy(() -> memberService.login(loginRequestDto))
+            MemberInfoDto memberInfoDto = new MemberInfoDto();
+
+            assertThatThrownBy(() -> memberService.login(loginRequestDto, memberInfoDto))
                     .isInstanceOf(MemberException.class)
                     .hasMessageContaining("이메일이 잘못됐습니다");
         }
