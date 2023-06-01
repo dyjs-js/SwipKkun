@@ -9,8 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import swipkkun.global.jwt.JwtFilter;
 import swipkkun.global.jwt.JwtTokenProvider;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +26,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable() // CSRF 공격에 대한 방어를 해제
-                .cors().and() // cors 허용
+                .cors().configurationSource(request -> {
+                    var cors = new CorsConfiguration();
+                    cors.setAllowedOrigins(List.of("http://localhost:3000"));
+                    cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
+                    cors.setAllowedHeaders(List.of("*"));
+                    return cors;
+                })
+                .and() // cors 허용
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버를 stateless하게 유지 즉 세션 X
                 .and()
                 .formLogin().disable() // 시큐리티가 기본 제공하는 로그인 화면 없앰. JWT는 로그인과정을 수동으로 클래스로 만들어야 하니까
