@@ -120,6 +120,7 @@ public class MemberService {
         validateLoginRequest(requestDto);
 
         Member member = findByEmail(requestDto.getEmail()).get();
+        memberInfoDto.setMemberId(member.getMemberId());
         memberInfoDto.setEmail(member.getEmail());
         memberInfoDto.setNickname(member.getNickname());
         memberInfoDto.setPhone((member.getPhone()));
@@ -184,6 +185,7 @@ public class MemberService {
             throw new MemberException(ErrorCode.ID_NOT_FOUND, "해당 유저를 찾을 수 없습니다");
         }
 
+        memberInfo.setMemberId(member.get().getMemberId());
         memberInfo.setEmail(member.get().getEmail());
         memberInfo.setNickname(member.get().getNickname());
         memberInfo.setPhone(member.get().getPhone());
