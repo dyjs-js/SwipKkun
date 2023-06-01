@@ -70,7 +70,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    private String getEmailFromToken(String accessToken, String jwtKey) {
+    public String getEmailFromToken(String accessToken, String jwtKey) {
         return Jwts.parser()
                 .setSigningKey(jwtKey)
                 .parseClaimsJws(accessToken)

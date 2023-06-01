@@ -163,6 +163,28 @@ public class MemberService {
         return tokenResponse;
     }
 
+    public MemberInfoDto getMemberInfo(int id, String accessToken) {
+        String email = tokenProvider.getEmailFromToken(accessToken, jwtKey);
+        Optional<Member> memberByEmail = findByEmail(email);
+
+        if (memberByEmail.isEmpty() || memberByEmail.get().getMemberId() != id) {
+            throw new MemberException(ErrorCode.ID_NOT_CORRESPOND, "접근 권한이 없습니다");
+        }
+
+        MemberInfoDto memberInfo = new MemberInfoDto();
+        Optional<Member> member = memberRepository.findByMemberId(id);
+
+        if (member.isEmpty()) {
+            throw new MemberException(ErrorCode.ID_NOT_FOUND, "해당 유저를 찾을 수 없습니다");
+        }
+
+        memberInfo.setEmail(member.get().getEmail());
+        memberInfo.setNickname(member.get().getNickname());
+        memberInfo.setPhone(member.get().getPhone());
+
+        return memberInfo;
+    }
+
     public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }

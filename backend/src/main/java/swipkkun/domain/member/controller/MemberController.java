@@ -5,10 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.el.parser.Token;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import swipkkun.domain.member.dto.*;
 import swipkkun.domain.member.service.MemberService;
 import swipkkun.global.util.HeaderUtil;
@@ -65,5 +62,12 @@ public class MemberController {
         TokenDTO newTokenResponse = memberService.refresh(tokenRequest);
 
         return ResponseEntity.ok().body(newTokenResponse);
+    }
+
+    @GetMapping("/member/{id}")
+    public ResponseEntity<MemberInfoDto> getMemberInfo(@PathVariable("id") int id, HttpServletRequest request) {
+        String accessToken = HeaderUtil.getAccessToken(request);
+        MemberInfoDto memberInfo = memberService.getMemberInfo(id, accessToken);
+        return ResponseEntity.ok().body(memberInfo);
     }
 }

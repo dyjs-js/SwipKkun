@@ -32,6 +32,7 @@ public class SecurityConfig {
 //                .requestMatchers("/signup", "/").permitAll() // 요 세 놈에 대한 요청은 인증없이 접근 허용
 //                .requestMatchers("/login").permitAll()
 //                .anyRequest().authenticated() // 나머지에 대해선 인증을 받아야 한다.
+                .requestMatchers("/api/auth/member/{id}", "/api/auth/refresh").authenticated()
                 .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

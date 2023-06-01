@@ -1,6 +1,5 @@
 package swipkkun.global.exception;
 
-import io.jsonwebtoken.SignatureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
