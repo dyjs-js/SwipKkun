@@ -5,6 +5,7 @@ import { NotFound } from "./routes/NotFound";
 import ArticlDetail from "./routes/ArticleDetail";
 import Chat from "./chatComponents/Chat";
 import UploadArticle from "./routes/UploadArticle";
+import Apitest from "./componenets/Apitest";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "chat",
         element: <Chat />,
+      },
+      {
+        path: "apitest",
+        element: <Apitest />,
       },
     ],
   },

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   HStack,
@@ -12,19 +11,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FaShoppingCart, FaSyncAlt, FaUser } from "react-icons/fa";
-import { Link, useRoutes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { GoOctoface } from "react-icons/go";
 import useUser from "../lib/useUser";
-import { logOut } from "../api";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
-  const onLogOut = async () => {
-    const data = await logOut();
-    console.log(data);
-  };
   const {
     isOpen: isLoginOpen,
     onClose: onLoginClose,
@@ -77,32 +71,37 @@ export default function Header() {
               </Button>
             </>
           ) : (
-            <Avatar name={user.name} size={"md"} />
+            <>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  color={"gray.700"}
+                  variant={"ghost"}
+                  aria-label="myPage"
+                  icon={<FaUser size="25px" />}
+                />
+
+                <MenuList>
+                  <Link to="/articles/upload">
+                    <MenuItem>마이페이지</MenuItem>
+                  </Link>
+                  <Link to="/articles/upload">
+                    <MenuItem>대여글 올리기</MenuItem>
+                  </Link>
+                  <Link to="/articles/upload">
+                    <MenuItem>로그아웃</MenuItem>
+                  </Link>
+                </MenuList>
+              </Menu>
+              <IconButton
+                color={"gray.700"}
+                variant={"ghost"}
+                aria-label="Cart"
+                icon={<FaShoppingCart size="25px" />}
+              ></IconButton>
+            </>
           )
         ) : null}
-        //api연결 후 위로 옮길예정!!!!!
-        <Menu>
-          <MenuButton>
-            <IconButton
-              color={"gray.700"}
-              variant={"ghost"}
-              aria-label="myPage"
-              icon={<FaUser size="25px" />}
-            ></IconButton>
-          </MenuButton>
-          <MenuList>
-            <Link to="/articles/upload">
-              <MenuItem>대여글 올리기</MenuItem>
-            </Link>
-            <MenuItem onClick={onLogOut}>로그아웃</MenuItem>
-          </MenuList>
-        </Menu>
-        <IconButton
-          color={"gray.700"}
-          variant={"ghost"}
-          aria-label="Cart"
-          icon={<FaShoppingCart size="25px" />}
-        ></IconButton>
       </HStack>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <SignUpModal isOpen={isSignUpOpen} onClose={onSignUpClose} />

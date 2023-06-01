@@ -1,12 +1,10 @@
 import {
   Box,
   Button,
-  Checkbox,
   Container,
   FormControl,
   FormHelperText,
   FormLabel,
-  Text,
   Heading,
   Input,
   InputGroup,
