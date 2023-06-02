@@ -37,8 +37,12 @@ public class RentalReviewService {
         rentalReview.setMember(member);
         rentalReview.setRentalPostId(reviewCreateRequestDto.getRentalPostId());
         rentalReview.setRentalReviewContent(reviewCreateRequestDto.getRentalReviewContent());
-        rentalReview.setRentalReviewScore(rentalReview.getRentalReviewScore());
+        rentalReview.setRentalReviewScore(reviewCreateRequestDto.getRentalReviewScore());
 
         rentalReviewRepository.save(rentalReview);
+    }
+
+    private void validateReviewCreateRequest(ReviewCreateRequestDto reviewCreateRequestDto) {
+
     }
 }
