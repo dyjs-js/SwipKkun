@@ -116,14 +116,8 @@ public class MemberService {
         return false; // 조건을 만족하지 않는 경우
     }
 
-    public TokenDTO login(LoginRequestDto requestDto, MemberInfoDto memberInfoDto) {
+    public TokenDTO login(LoginRequestDto requestDto) {
         validateLoginRequest(requestDto);
-
-        Member member = findByEmail(requestDto.getEmail()).get();
-        memberInfoDto.setMemberId(member.getMemberId());
-        memberInfoDto.setEmail(member.getEmail());
-        memberInfoDto.setNickname(member.getNickname());
-        memberInfoDto.setPhone((member.getPhone()));
 
         UserDetails userDetails = memberRepository.findByEmail(requestDto.getEmail()).get();
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
