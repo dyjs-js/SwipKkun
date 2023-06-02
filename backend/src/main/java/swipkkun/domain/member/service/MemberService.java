@@ -62,11 +62,23 @@ public class MemberService {
     }
 
     private boolean validateNicknameFormat(String nickname) {
-        if (nickname.length() < 10 && !nickname.matches(".*[^a-zA-Z0-9].*")) { // 문자열이 10글자 미만인지 확인
-            return true;
+        if (nickname.length() >= 10 || containsSpecialCharacter(nickname)) {
+            return false;
         }
 
-        return false; // 조건을 만족하지 않는 경우
+        return true;
+    }
+
+    private static boolean containsSpecialCharacter(String nickname) {
+        String specialCharacters = "!@#$%^&*()_+{}|:\"<>?-=[];',./~`";
+
+        for (int i = 0; i < nickname.length(); i++) {
+            char ch = nickname.charAt(i);
+            if (specialCharacters.contains(String.valueOf(ch))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void validateSignupRequest(SignupRequestDto requestDto) {
