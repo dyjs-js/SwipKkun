@@ -1,6 +1,5 @@
 package test.product.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -62,13 +61,23 @@ public class ProductDAO extends EgovAbstractMapper {
 	}
 	
 	/**
+	 * 비슷한 상품 목록
+	 * @param vo - 조회할 정보가 담긴 CodeVO
+	 * @return 조회 데이터
+	 * @exception Exception
+	 */
+	public List<ProductVO> selectProductNotList(ProductVO vo) throws Exception {
+		return selectList("productDAO.selectProductNotList", vo);
+	}
+	
+	/**
 	 * 상품 등록
 	 * @param vo - 등록할 정보가 담긴 ProductVO
 	 * @return 등록 데이터
 	 * @exception Exception
 	 */
-	public int insertProduct(HashMap<String, Object> map) throws Exception {
-		return insert("productDAO.insertProduct", map);
+	public int insertProduct(ProductVO vo) throws Exception {
+		return insert("productDAO.insertProduct", vo);
 	}
 	
 	/**
@@ -77,8 +86,18 @@ public class ProductDAO extends EgovAbstractMapper {
 	 * @return 수정 데이터
 	 * @exception Exception
 	 */
-	public int updateProduct(HashMap<String, Object> map) throws Exception {
-		return update("productDAO.updateProduct", map);
+	public int updateProduct(ProductVO vo) throws Exception {
+		return update("productDAO.updateProduct", vo);
+	}
+	
+	/**
+	 * 상품 이미지 삭제
+	 * @param vo - 이미지 삭제할 정보가 담긴 ProductVO
+	 * @return 이미지 삭제 데이터
+	 * @exception Exception
+	 */
+	public int updateProductImgDel(ProductVO vo) throws Exception {
+		return update("productDAO.updateProductImgDel", vo);
 	}
 	
 	/**
@@ -87,8 +106,8 @@ public class ProductDAO extends EgovAbstractMapper {
 	 * @return 삭제 데이터
 	 * @exception Exception
 	 */
-	public int deleteProduct(HashMap<String, Object> map) throws Exception {
-		return delete("productDAO.deleteProduct", map);
+	public int deleteProduct(ProductVO vo) throws Exception {
+		return delete("productDAO.deleteProduct", vo);
 	}
 	
 }
