@@ -14,7 +14,9 @@ public class ProductVO extends DefaultVO {
 	
 	private String product_eng_name;
 	
-	private int product_price;
+	private String product_day_bak;
+	
+	private String product_price;
 	
 	private String product_img;
 	
@@ -34,6 +36,8 @@ public class ProductVO extends DefaultVO {
 	
 	private int product_review_idx;
 	
+	private int review_cnt;
+	
 	private int review_score;
 	
 	private String review_content;
@@ -41,6 +45,16 @@ public class ProductVO extends DefaultVO {
 	private String review_writer;
 	
 	private String product_review_status;
+	
+	private String review_score_1_per;
+	
+	private String review_score_2_per;
+	
+	private String review_score_3_per;
+	
+	private String review_score_4_per;
+	
+	private String review_score_5_per;
 
 	public int getProduct_idx() {
 		return product_idx;
@@ -66,11 +80,19 @@ public class ProductVO extends DefaultVO {
 		this.product_eng_name = product_eng_name;
 	}
 
-	public int getProduct_price() {
+	public String getProduct_day_bak() {
+		return product_day_bak;
+	}
+
+	public void setProduct_day_bak(String product_day_bak) {
+		this.product_day_bak = product_day_bak;
+	}
+
+	public String getProduct_price() {
 		return product_price;
 	}
 	
-	public void setProduct_price(int product_price) {
+	public void setProduct_price(String product_price) {
 		this.product_price = product_price;
 	}
 	
@@ -146,6 +168,14 @@ public class ProductVO extends DefaultVO {
 		this.product_review_idx = product_review_idx;
 	}
 	
+	public int getReview_cnt() {
+		return review_cnt;
+	}
+
+	public void setReview_cnt(int review_cnt) {
+		this.review_cnt = review_cnt;
+	}
+
 	public int getReview_score() {
 		return review_score;
 	}
@@ -178,6 +208,46 @@ public class ProductVO extends DefaultVO {
 		this.product_review_status = product_review_status;
 	}
 	
+	public String getReview_score_1_per() {
+		return review_score_1_per;
+	}
+
+	public void setReview_score_1_per(String review_score_1_per) {
+		this.review_score_1_per = review_score_1_per;
+	}
+
+	public String getReview_score_2_per() {
+		return review_score_2_per;
+	}
+
+	public void setReview_score_2_per(String review_score_2_per) {
+		this.review_score_2_per = review_score_2_per;
+	}
+
+	public String getReview_score_3_per() {
+		return review_score_3_per;
+	}
+
+	public void setReview_score_3_per(String review_score_3_per) {
+		this.review_score_3_per = review_score_3_per;
+	}
+
+	public String getReview_score_4_per() {
+		return review_score_4_per;
+	}
+
+	public void setReview_score_4_per(String review_score_4_per) {
+		this.review_score_4_per = review_score_4_per;
+	}
+
+	public String getReview_score_5_per() {
+		return review_score_5_per;
+	}
+
+	public void setReview_score_5_per(String review_score_5_per) {
+		this.review_score_5_per = review_score_5_per;
+	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
