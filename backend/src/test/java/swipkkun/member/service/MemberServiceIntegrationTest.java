@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import swipkkun.domain.member.dto.MemberInfoDto;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.dto.LoginRequestDto;
 import swipkkun.domain.member.dto.SignupRequestDto;
@@ -32,8 +31,8 @@ class MemberServiceIntegrationTest {
         void signup1() {
             SignupRequestDto requestDto = new SignupRequestDto();
             requestDto.setEmail("test1@google.com");
-            requestDto.setPassword("123213");
-            requestDto.setNickname("구우욷");
+            requestDto.setPassword("123213a123");
+            requestDto.setNickname("goodgood1");
             requestDto.setPhone("010-2134-4321");
 
             memberService.signup(requestDto);
@@ -47,12 +46,12 @@ class MemberServiceIntegrationTest {
         void signup2() {
             SignupRequestDto requestDto = new SignupRequestDto();
             requestDto.setEmail("test1@google.com");
-            requestDto.setPassword("123213");
-            requestDto.setNickname("구우욷");
+            requestDto.setPassword("123213a123");
+            requestDto.setNickname("goodgood1");
             requestDto.setPhone("010-2134-4321");
 
             memberService.signup(requestDto);
-            requestDto.setNickname("너무나도 좋아용");
+            requestDto.setNickname("badgood");
 
             assertThatThrownBy(() -> memberService.signup(requestDto))
                     .isInstanceOf(MemberException.class)
@@ -65,8 +64,8 @@ class MemberServiceIntegrationTest {
         void signup3() {
             SignupRequestDto requestDto = new SignupRequestDto();
             requestDto.setEmail("test1@google.com");
-            requestDto.setPassword("123213");
-            requestDto.setNickname("구우욷");
+            requestDto.setPassword("123213a123");
+            requestDto.setNickname("goodgood1");
             requestDto.setPhone("010-2134-4321");
 
             memberService.signup(requestDto);
@@ -86,19 +85,17 @@ class MemberServiceIntegrationTest {
         void login() {
             SignupRequestDto signupRequestDto = new SignupRequestDto();
             signupRequestDto.setEmail("test1@google.com");
-            signupRequestDto.setPassword("123213");
-            signupRequestDto.setNickname("구우욷");
+            signupRequestDto.setPassword("123213a123");
+            signupRequestDto.setNickname("goodgood1");
             signupRequestDto.setPhone("010-2134-4321");
 
             memberService.signup(signupRequestDto);
 
             LoginRequestDto loginRequestDto = new LoginRequestDto();
             loginRequestDto.setEmail("test1@google.com");
-            loginRequestDto.setPassword("123213");
+            loginRequestDto.setPassword("123213a123");
 
-            MemberInfoDto memberInfoDto = new MemberInfoDto();
-
-            assertThatCode(() -> memberService.login(loginRequestDto, memberInfoDto))
+            assertThatCode(() -> memberService.login(loginRequestDto))
                     .doesNotThrowAnyException();
         }
 
@@ -107,19 +104,17 @@ class MemberServiceIntegrationTest {
         void login2() {
             SignupRequestDto signupRequestDto = new SignupRequestDto();
             signupRequestDto.setEmail("test1@google.com");
-            signupRequestDto.setPassword("123213");
-            signupRequestDto.setNickname("구우욷");
+            signupRequestDto.setPassword("123213a123");
+            signupRequestDto.setNickname("goodgood1");
             signupRequestDto.setPhone("010-2134-4321");
 
             memberService.signup(signupRequestDto);
 
             LoginRequestDto loginRequestDto = new LoginRequestDto();
             loginRequestDto.setEmail("test1@google.com");
-            loginRequestDto.setPassword("123212");
+            loginRequestDto.setPassword("123213a122");
 
-            MemberInfoDto memberInfoDto = new MemberInfoDto();
-
-            assertThatThrownBy(() -> memberService.login(loginRequestDto, memberInfoDto))
+            assertThatThrownBy(() -> memberService.login(loginRequestDto))
                     .isInstanceOf(MemberException.class)
                     .hasMessageContaining("비밀번호가 잘못됐습니다");
         }
@@ -129,19 +124,17 @@ class MemberServiceIntegrationTest {
         void login3() {
             SignupRequestDto signupRequestDto = new SignupRequestDto();
             signupRequestDto.setEmail("test1@google.com");
-            signupRequestDto.setPassword("123213");
-            signupRequestDto.setNickname("구우욷");
+            signupRequestDto.setPassword("123213a123");
+            signupRequestDto.setNickname("goodgood1");
             signupRequestDto.setPhone("010-2134-4321");
 
             memberService.signup(signupRequestDto);
 
             LoginRequestDto loginRequestDto = new LoginRequestDto();
             loginRequestDto.setEmail("test12@google.com");
-            loginRequestDto.setPassword("123213");
+            loginRequestDto.setPassword("123213a123");
 
-            MemberInfoDto memberInfoDto = new MemberInfoDto();
-
-            assertThatThrownBy(() -> memberService.login(loginRequestDto, memberInfoDto))
+            assertThatThrownBy(() -> memberService.login(loginRequestDto))
                     .isInstanceOf(MemberException.class)
                     .hasMessageContaining("이메일이 잘못됐습니다");
         }
