@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum ErrorCode {
+public enum MemberErrorCode {
     USER_EMAIL_DUPLICATED(HttpStatus.CONFLICT, ""),
     USER_NICKNAME_DUPLICATED(HttpStatus.CONFLICT, ""),
     PASSWORD_FORMAT_NOT_OBSERVED(HttpStatus.BAD_REQUEST, ""),

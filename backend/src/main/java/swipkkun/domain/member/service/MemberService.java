@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import swipkkun.domain.member.dto.*;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.entity.Role;
-import swipkkun.domain.member.exception.ErrorCode;
+import swipkkun.domain.member.exception.MemberErrorCode;
 import swipkkun.domain.member.exception.MemberException;
 import swipkkun.domain.member.repository.MemberRepository;
 import swipkkun.global.jwt.JwtTokenProvider;
@@ -87,21 +87,21 @@ public class MemberService {
         String password = requestDto.getPassword();
 
         if (!validatePassword(password)) {
-            throw new MemberException(ErrorCode.PASSWORD_FORMAT_NOT_OBSERVED, "비밀번호는 10글자 이상이고 영문/숫자가 하나씩은 포함되어야 합니다");
+            throw new MemberException(MemberErrorCode.PASSWORD_FORMAT_NOT_OBSERVED, "비밀번호는 10글자 이상이고 영문/숫자가 하나씩은 포함되어야 합니다");
         }
 
         findByEmail(email)
                 .ifPresent(member -> {
-                    throw new MemberException(ErrorCode.USER_EMAIL_DUPLICATED, "이미 사용중인 이메일입니다");
+                    throw new MemberException(MemberErrorCode.USER_EMAIL_DUPLICATED, "이미 사용중인 이메일입니다");
                 });
 
         if (!validateNicknameFormat(nickname)) {
-            throw new MemberException(ErrorCode.NICKNAME_FORMAT_NOT_OBSERVED, "닉네임은 10글자 미만이고 알파벳&숫자만 입력해야 합니다");
+            throw new MemberException(MemberErrorCode.NICKNAME_FORMAT_NOT_OBSERVED, "닉네임은 10글자 미만이고 알파벳&숫자만 입력해야 합니다");
         }
 
         findByNickname(nickname)
                 .ifPresent(member -> {
-                    throw new MemberException(ErrorCode.USER_NICKNAME_DUPLICATED, "이미 사용중인 닉네임입니다");
+                    throw new MemberException(MemberErrorCode.USER_NICKNAME_DUPLICATED, "이미 사용중인 닉네임입니다");
                 });
     }
 
@@ -148,11 +148,11 @@ public class MemberService {
     private void validateLoginRequest(LoginRequestDto requestDto) {
         Optional<Member> member = findByEmail(requestDto.getEmail());
         if (member.isEmpty()) {
-            throw new MemberException(ErrorCode.EMAIL_NOT_FOUND, "이메일이 잘못됐습니다");
+            throw new MemberException(MemberErrorCode.EMAIL_NOT_FOUND, "이메일이 잘못됐습니다");
         }
 
         if (!passwordEncoder.matches(requestDto.getPassword(), member.get().getPassword())) {
-            throw new MemberException(ErrorCode.WRONG_PASSWORD, "비밀번호가 잘못됐습니다");
+            throw new MemberException(MemberErrorCode.WRONG_PASSWORD, "비밀번호가 잘못됐습니다");
         }
     }
 
@@ -181,14 +181,14 @@ public class MemberService {
         Optional<Member> memberByEmail = findByEmail(email);
 
         if (memberByEmail.isEmpty() || memberByEmail.get().getMemberId() != id) {
-            throw new MemberException(ErrorCode.ID_NOT_CORRESPOND, "접근 권한이 없습니다");
+            throw new MemberException(MemberErrorCode.ID_NOT_CORRESPOND, "접근 권한이 없습니다");
         }
 
         MemberInfoDto memberInfo = new MemberInfoDto();
         Optional<Member> member = memberRepository.findByMemberId(id);
 
         if (member.isEmpty()) {
-            throw new MemberException(ErrorCode.ID_NOT_FOUND, "해당 유저를 찾을 수 없습니다");
+            throw new MemberException(MemberErrorCode.ID_NOT_FOUND, "해당 유저를 찾을 수 없습니다");
         }
 
         memberInfo.setMemberId(member.get().getMemberId());
