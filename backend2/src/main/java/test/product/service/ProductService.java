@@ -1,6 +1,5 @@
 package test.product.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface ProductService {
@@ -46,12 +45,20 @@ public interface ProductService {
 	List<ProductVO> selectProductReviewList(ProductVO vo) throws Exception;
 	
 	/**
+	 * 비슷한 상품 목록
+	 * @param vo - 조회할 정보가 담긴 CodeVO
+	 * @return 조회 데이터
+	 * @exception Exception
+	 */
+	List<ProductVO> selectProductNotList(ProductVO vo) throws Exception;
+	
+	/**
 	 * 상품 등록
 	 * @param vo - 등록할 정보가 담긴 ProductVO
 	 * @return 등록 데이터
 	 * @exception Exception
 	 */
-	int insertProduct(HashMap<String, Object> map) throws Exception;
+	int insertProduct(ProductVO vo) throws Exception;
 	
 	/**
 	 * 상품 수정
@@ -59,7 +66,15 @@ public interface ProductService {
 	 * @return 수정 데이터
 	 * @exception Exception
 	 */
-	int updateProduct(HashMap<String, Object> map) throws Exception;
+	int updateProduct(ProductVO vo) throws Exception;
+
+	/**
+	 * 상품 이미지 삭제
+	 * @param vo - 이미지 삭제할 정보가 담긴 ProductVO
+	 * @return 이미지 삭제 데이터
+	 * @exception Exception
+	 */
+	int updateProductImgDel(ProductVO vo) throws Exception;
 	
 	/**
 	 * 상품 삭제
@@ -67,6 +82,6 @@ public interface ProductService {
 	 * @return 삭제 데이터
 	 * @exception Exception
 	 */
-	int deleteProduct(HashMap<String, Object> map) throws Exception;
+	int deleteProduct(ProductVO vo) throws Exception;
 	
 }
