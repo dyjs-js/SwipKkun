@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="egov.propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/test/egovProps/globals.properties</value>
+            </list>
+        </property>
+    </bean>
+	
+	<!-- DataSource -->
+	<bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${Globals.DriverClassName}"/>
+		<property name="url" value="${Globals.Url}" />
+		<property name="username" value="${Globals.UserName}"/>
+		<property name="password" value="${Globals.Password}"/>
+        <property name="validationQuery" value="${Globals.validationQuery}"/>
+  		<property name="testWhileIdle"  value="${Globals.testWhileIdle}"/>
+  		<property name="timeBetweenEvictionRunsMillis" value="${Globals.timeBetweenEvictionRunsMillis}"/>
+  		<property name="initialSize" value="${Globals.initialSize}"/>
+        <property name="maxActive" value="${Globals.maxActive}"/>
+        <property name="minIdle" value="${Globals.minIdle}"/>
+        <property name="maxIdle" value="${Globals.maxIdle}"/>
+	</bean>
+	
+    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+    	<constructor-arg ref="dataSourceSpied"/>
+    	<property name="logFormatter">
+        	<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+        		<property name="loggingType" value="MULTI_LINE"/>
+        		<property name="sqlPrefix" value="SQL:::"/>
+        	</bean>
+        </property>
+    </bean>
+	
+</beans>
