@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="productDAO">
+	
+	<select id="selectProductList" resultType="productVO" parameterType="productVO">
+		SELECT 
+			A.product_idx 
+			, A.product_name 
+			, A.product_eng_name 
+			, A.product_day_bak 
+			, A.product_price 
+			, A.product_img 
+			, A.product_address
+			, A.reg_date 
+			, A.edit_date 
+			, A.product_status 
+			, ROUND((SELECT AVG(review_score) FROM product_review_info WHERE product_idx = A.product_idx), 1) review_score_avg
+		FROM 
+			product_info A
+		WHERE 
+			1=1 
+	<if test="searchKeyword != '' and searchKeyword != null">
+    	AND A.product_name LIKE CONCAT('%', #{searchKeyword}, '%')  
+    </if>
+    <if test="searchKeyword != '' and searchKeyword != null">
+    	AND A.product_hash_tag LIKE CONCAT('%', #{searchKeyword}, '%')  
+    </if>
+    <if test="searchRagion != '' and searchRagion != null">
+    	AND A.product_address LIKE CONCAT('%', #{searchRagion}, '%')  
+    </if>
+		<if test="searchOrderBy != '' and searchOrderBy != null">
+			<if test='searchOrderBy eq "reg_date".toString()'>
+				<if test='searchOrderGb eq "DESC".toString() or searchOrderGb == null'>
+				ORDER BY A.reg_date DESC
+				</if>
+				
+				<if test='searchOrderGb eq "ASC".toString()'>
+				ORDER BY A.reg_date ASC
+				</if>
+			</if>
+			<if test='searchOrderBy eq "product_price".toString()'>
+				<if test='searchOrderGb eq "DESC".toString()'>
+				ORDER BY A.product_price DESC 
+				</if>
+				
+				<if test='searchOrderGb eq "ASC".toString()'>
+				ORDER BY A.product_price ASC 
+				</if>
+			</if>
+			<if test='searchOrderBy eq "hit_cnt".toString()'>
+				<if test='searchOrderGb eq "DESC".toString()'>
+				ORDER BY A.hit_cnt DESC 
+				</if>
+				
+				<if test='searchOrderGb eq "ASC".toString()'>
+				ORDER BY A.hit_cnt ASC 
+				</if>
+			</if>
+			<if test='searchOrderBy eq "review_score".toString()'>
+				<if test='searchOrderGb eq "DESC".toString()'>
+				ORDER BY ROUND((SELECT AVG(review_score) FROM product_review_info WHERE product_idx = A.product_idx), 1) DESC 
+				</if>
+				
+				<if test='searchOrderGb eq "ASC".toString()'>
+				ORDER BY ROUND((SELECT AVG(review_score) FROM product_review_info WHERE product_idx = A.product_idx), 1) ASC 
+				</if>
+			</if>
+		</if>
+		<if test="searchOrderBy == null">
+			ORDER BY A.reg_date DESC 
+		</if>
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex} 
+	</select>
+	
+	<select id="selectProductListCnt" resultType="int" parameterType="productVO">
+		SELECT 
+			COUNT(*) cnt 
+		FROM 
+			product_info A
+		WHERE 
+			1=1 
+	<if test="searchKeyword != '' and searchKeyword != null">
+    	AND A.product_name LIKE CONCAT('%', #{searchKeyword}, '%')  
+    </if>
+    <if test="searchKeyword != '' and searchKeyword != null">
+    	AND A.product_hash_tag LIKE CONCAT('%', #{searchKeyword}, '%')  
+    </if>
+    <if test="searchRagion != '' and searchRagion != null">
+    	AND A.product_address LIKE CONCAT('%', #{searchRagion}, '%')  
+    </if>
+	</select>
+	
+	<select id="getProduct" resultType="productVO" parameterType="productVO">
+		SELECT 
+			A.product_idx
+			, A.product_name
+			, A.product_eng_name
+			, A.product_day_bak
+			, A.product_price
+			, A.product_img
+			, A.product_content
+			, A.product_hash_tag
+			, A.reg_date
+			, A.edit_date
+			, A.product_status
+			, ROUND((SELECT AVG(review_score) FROM product_review_info WHERE product_idx = A.product_idx), 1) review_score_avg
+			, (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) review_cnt
+			, ifnull(round( (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx AND review_score = '1') / (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) * 100,0), '0') AS review_score_1_per
+			, ifnull(round( (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx AND review_score = '2') / (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) * 100,0), '0') AS review_score_2_per
+			, ifnull(round( (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx AND review_score = '3') / (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) * 100,0), '0') AS review_score_3_per
+			, ifnull(round( (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx AND review_score = '4') / (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) * 100,0), '0') AS review_score_4_per
+			, ifnull(round( (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx AND review_score = '5') / (SELECT count(*) cnt FROM product_review_info WHERE product_idx = A.product_idx) * 100,0), '0') AS review_score_5_per
+		FROM 
+			product_info A
+		WHERE 
+			A.product_idx = #{product_idx} 
+	</select>
+	
+	<update id="updateProductHitCnt" parameterType="productVO">
+		UPDATE 
+			product_info 
+		SET 
+			hit_cnt = hit_cnt + 1 
+		WHERE 
+			product_idx = #{product_idx}
+	</update>
+	
+	<select id="selectProductNotList" resultType="productVO" parameterType="productVO">
+		SELECT 
+			A.product_idx 
+			, A.product_name 
+			, A.product_eng_name 
+			, A.product_day_bak 
+			, A.product_price 
+			, A.product_img 
+			, A.product_address
+			, A.reg_date 
+			, A.edit_date 
+			, A.product_status 
+		FROM 
+			product_info A 
+		WHERE 
+			1=1 
+		AND A.product_idx != #{product_idx} 
+	</select>
+	
+	<insert id="insertProduct" parameterType="productVO">
+		INSERT INTO product_info 
+		(
+			product_name, 
+			product_eng_name, 
+			product_day_bak, 
+			product_price, 
+			product_img, 
+			product_address, 
+			product_content, 
+			product_hash_tag, 
+			hit_cnt, 
+			reg_date, 
+			product_status 
+		) 
+		VALUES 
+		(
+			#{product_name}, 
+			#{product_eng_name}, 
+			#{product_day_bak}, 
+			#{product_price}, 
+			#{product_img}, 
+			#{product_address}, 
+			#{product_content}, 
+			#{product_hash_tag}, 
+			'0', 
+			now(), 
+			'1' 
+		)
+	</insert>
+	
+	<update id="updateProduct" parameterType="productVO">
+		UPDATE 
+			product_info 
+		SET 
+			product_name = #{product_name}
+			, product_eng_name = #{product_eng_name}
+			, product_day_bak = #{product_day_bak}
+			, product_price = #{product_price}
+			<if test="product_img != '' and product_img != null">
+			, product_img = #{product_img}
+			</if>
+			, product_address = #{product_address}
+			, product_content = #{product_content}
+			, product_hash_tag = #{product_hash_tag}
+			, edit_date = now() 
+		WHERE 
+			product_idx = #{product_idx}
+	</update>
+	
+	<update id="updateProductImgDel" parameterType="productVO">
+		UPDATE 
+			product_info 
+		SET 
+			product_img = NULL 
+		WHERE 
+			product_idx = #{product_idx}
+	</update>
+	
+	<delete id="deleteProduct" parameterType="productVO">
+		DELETE FROM 
+			product_info 
+		WHERE 
+			product_idx = #{product_idx}
+	</delete>
+	
+	<select id="selectProductReviewList" resultType="productVO" parameterType="productVO">
+		SELECT 
+			A.product_review_idx 
+			, A.product_idx
+			, A.review_score
+			, A.review_content
+			, A.reg_date
+			, A.edit_date
+			, A.review_writer
+			, A.product_review_status
+		FROM 
+			product_review_info A 
+		WHERE 
+			A.product_idx = #{product_idx} 
+	</select>
+	
+</mapper>
