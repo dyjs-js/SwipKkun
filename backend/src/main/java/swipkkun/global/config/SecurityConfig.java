@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import swipkkun.global.jwt.JwtExceptionFilter;
 import swipkkun.global.jwt.JwtFilter;
 import swipkkun.global.jwt.JwtTokenProvider;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider tokenProvider;
+    private final JwtExceptionFilter jwtExceptionFilter;
     @Value("${jwt.secret}")
     private String jwtKey;
 
@@ -47,6 +49,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(tokenProvider, jwtKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtFilter.class)
                 .build();
     }
 }
