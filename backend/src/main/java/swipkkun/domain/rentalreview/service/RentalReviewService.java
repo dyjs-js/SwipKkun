@@ -76,4 +76,10 @@ public class RentalReviewService {
             throw new ReviewException(ReviewErrorCode.INVALID_REVIEW_SCORE_RANGE, "별점은 1 ~ 5까지만 가능합니다");
         }
     }
+
+    public boolean deleteReview(int rentalReviewId) {
+        // 멤버 권한 체크, 게시글 존재 체크 해야 함
+        rentalReviewRepository.deleteRentalReviewByRentalReviewId(rentalReviewId);
+        return true;
+    }
 }

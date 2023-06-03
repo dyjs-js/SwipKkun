@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface RentalReviewRepository extends JpaRepository<RentalReview, Integer> {
     RentalReview save(RentalReview rentalReview);
     Optional<RentalReview> findByRentalReviewId(int id);
+    void deleteRentalReviewByRentalReviewId(int rentalReviewId);
 }

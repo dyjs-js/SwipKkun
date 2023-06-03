@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import swipkkun.domain.rentalreview.dto.ReviewCreateRequestDto;
 import swipkkun.domain.rentalreview.entity.RentalReview;
 import swipkkun.domain.rentalreview.service.RentalReviewService;
-import java.util.List;
+
+import java.util.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/rental-review")
@@ -25,9 +26,17 @@ public class RentalReviewController {
 //        return ResponseEntity.ok().body("reviews");
 //    }
 
-    @PostMapping("create-review")
+    @PostMapping("/create-review")
     public String createReview(@RequestBody ReviewCreateRequestDto reviewCreateRequestDto) {
         rentalReviewService.createReview(reviewCreateRequestDto);
         return "success";
+    }
+
+    @DeleteMapping("/delete-review/{rentalReviewId}")
+    public ResponseEntity<Map<String, Boolean>> deleteReview(@PathVariable("rentalReviewId") int rentalReviewId) {
+        boolean deleteResult = rentalReviewService.deleteReview(rentalReviewId);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("delete_sucess", deleteResult);
+        return ResponseEntity.ok().body(result);
     }
 }
