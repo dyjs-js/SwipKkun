@@ -13,19 +13,54 @@ import {
   ModalOverlay,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { FaLock, FaPhone, FaUserAlt, FaUserSecret } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { userMailSignup } from "../api";
 
 interface SignUpModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface IForm {
+  email: string;
+  password: string;
+  nickname: string;
+  phone: string;
+}
+
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IForm>();
+  const toast = useToast();
+  const mutation = useMutation(userMailSignup, {
+    onMutate: () => {
+      console.log("mutation starting");
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Welcome SwipKkun",
+        status: "success",
+      });
+      onClose();
+      reset();
+    },
+  });
+  const onSubmit = ({ email, password, nickname, phone }: IForm) => {
+    // console.log(email, password, nickname, phone);
+    mutation.mutate({ email, password, nickname, phone });
+  };
 
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const handleConfirmPasswordClick = () =>
@@ -37,7 +72,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       <ModalContent>
         <ModalHeader>Sign up</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
           <VStack>
             <Text>Enjoy Swipkkun</Text>
             <InputGroup>
@@ -48,7 +83,15 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Email address" />
+              <Input
+                required
+                isInvalid={Boolean(errors.email?.message)}
+                {...register("email", {
+                  required: "Please write a email",
+                })}
+                variant={"filled"}
+                placeholder="Email address"
+              />
               <InputRightElement width="4.5rem">
                 <Button color="gray.600" h="1.75rem" size="sm">
                   Verify
@@ -64,6 +107,11 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 }
               />
               <Input
+                isInvalid={Boolean(errors.password?.message)}
+                required
+                {...register("password", {
+                  required: "Plase write a Password",
+                })}
                 type={showPassword ? "text" : "password"}
                 variant={"filled"}
                 placeholder="Password"
@@ -88,10 +136,14 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 }
               />
               <Input
+                isInvalid={Boolean(errors.password?.message)}
+                required
+                {...register("password", {
+                  required: "Plase write a Password",
+                })}
                 type={showConfirmPassword ? "text" : "password"}
                 variant={"filled"}
                 placeholder="Password confirm"
-                minLength={5}
               />
               <InputRightElement width="4.5rem">
                 <Button
@@ -112,7 +164,15 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Nickname" />
+              <Input
+                isInvalid={Boolean(errors.nickname?.message)}
+                required
+                {...register("nickname", {
+                  required: "Plase write a Nickname",
+                })}
+                variant={"filled"}
+                placeholder="Nickname"
+              />
             </InputGroup>
             <InputGroup>
               <InputLeftElement
@@ -122,7 +182,15 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                   </Box>
                 }
               />
-              <Input variant={"filled"} placeholder="Phone number" />
+              <Input
+                isInvalid={Boolean(errors.phone?.message)}
+                required
+                {...register("phone", {
+                  required: "Plase write a phone number",
+                })}
+                variant={"filled"}
+                placeholder="Phone number"
+              />
               <InputRightElement width="4.5rem">
                 <Button color="gray.600" h="1.75rem" size="sm">
                   Verify
@@ -130,7 +198,13 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
               </InputRightElement>
             </InputGroup>
           </VStack>
-          <Button marginTop={4} colorScheme="teal" w="100%">
+          <Button
+            isLoading={mutation.isLoading}
+            type="submit"
+            marginTop={4}
+            colorScheme="teal"
+            w="100%"
+          >
             Sign up
           </Button>
 

@@ -1,84 +1,112 @@
 import axios from "axios";
+
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8080/api/auth",
 });
 //login
-export interface IUserEmailLoginVariables {
+export interface IUserEmailLoginReuqest {
   email: string;
   password: string;
 }
 
-export interface IUserEmailLoginResponse {
-  token: {
-    access_token: string;
-  };
-  member_info: {
-    email: string;
-    nickname: string;
-    phone: string;
-  };
+//signup
+export interface IUserSignupReuqest {
+  email: string;
+  password: string;
+  nickname: string;
+  phone: string;
 }
+
 //나중에 삭제할 수 있으면 삭제할거..
 export interface IUserEmailLoginSuccess {
   ok: string;
 }
-export interface IUserEailLoginError {
+export interface IUserEmailLoginError {
   error: string;
 }
 
-//Login user정보를 가져옴
-export const userEmailLogIn = ({ email, password }: IUserEmailLoginVariables) =>
-  instance.post("/login", { email, password }).then((response) => {
-    const member_info = response.data.member_info;
-    const access_token = response.data.token.access_token;
-    console.log(access_token);
-    return member_info;
-  });
-// Access token 정보를 가져옴
-export const GetUserAccessToken = ({
+// access token을 header에 전달하는 인터셉터
+instance.interceptors.request.use(
+  async (config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      console.log("1" + token);
+      const parsedToken = JSON.parse(token);
+      const accessToken = parsedToken.access_token;
+      console.log("2" + accessToken);
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+      console.log("3" + config.headers["Authorization"]);
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// 회원가입 후 access token 정보를 가져옴
+export const userMailSignup = async ({
   email,
   password,
-}: IUserEmailLoginVariables) =>
-  instance.post("/login", { email, password }).then((response) => {
-    const access_token = response.data.token.access_token;
-    console.log(access_token);
-    return access_token;
-  });
-
-// 나의 정보 가져오기
-export const getMe = () => {
-  return instance
-    .get("/member/109", {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6ImV4YW1wbGUxQGV4YW1wbGUuY29tIiwiaWF0IjoxNjg1NjM5MTY3LCJleHAiOjE2ODU2NDA5Njd9.BVJqgv8qMNqQ8PlWsmTkkeJuhxFA6VOuP7GRJUIrpbs
-
-
-      `,
-      },
-    })
-    .then((response) => response.data);
+  nickname,
+  phone,
+}: IUserSignupReuqest) => {
+  {
+    const response = await instance.post(
+      "/signup",
+      { email, password, nickname, phone },
+      {}
+    );
+    const access_token = response.data;
+    localStorage.setItem("access_token", JSON.stringify(access_token));
+    console.log("signup: " + JSON.stringify(access_token));
+    return response.data;
+  }
+};
+//로그인 후 access token 정보를 가져옴
+export const userEmailLogIn = async ({
+  email,
+  password,
+}: IUserEmailLoginReuqest) => {
+  const response = await instance.post("/login", { email, password }, {});
+  const access_token = response.data;
+  localStorage.setItem("access_token", JSON.stringify(access_token));
+  console.log("login " + JSON.stringify(access_token));
+  return response.data;
 };
 
-/*
-const email = 'example1@example.com';
-const password = 'mypassword';
+// 로그인 후 멤버 정보를 가져옴
+export const GetMember = () => {
+  return instance.get("/member/117").then((response) => response.data);
+};
 
-getMe(email, password)
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error(error);
-  }); */
-// api test
-// export const getTest = () =>
-//   instance.get(`signup/`).then((response) => response.data);
+// 로그인 후 access token 정보를 가져옴
+// export const userEmailLogIn = ({ email, password }: IUserEmailLoginReuqest) =>
+//   instance.post("/login", { email, password }, {}).then((response) => {
+//     const access_token = response.data;
+//     localStorage.setItem("access_token", JSON.stringify(access_token));
+//     console.log("4" + JSON.stringify(access_token));
 
-// //로그아웃
-// export const logOut = () =>
-//   instance.post(`user/log-out`).then((Response) => Response.data);
+//     return response.data;
+//   });
+// instance.interceptors.request.use(
+//   async (config) => {
+//     const token = localStorage.getItem("access_token"); // Retrieve access_token from localStorage as string
+//     // Bearer 토큰 설정
 
-// export const getSome=(something)=>{
-//   console.log(something);
-//   return instance.get(`rooms/11`).then((response)=>response.data);
-// }
+//     if (token) {
+//       console.log("1" + token);
+//       const parsedToken = JSON.parse(token);
+//       const accessToken = parsedToken.access_token;
+//       console.log("2" + accessToken);
+//       config.headers["Authorization"] = `Bearer ${accessToken}`;
+//       console.log("3" + config.headers["Authorization"]);
+//     }
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );

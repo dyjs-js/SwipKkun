@@ -20,10 +20,8 @@ const Login: React.FC = () => {
           password,
         }
       );
-      const access_token = response.data.token.access_token;
-      const userInfo = response.data.member_info;
+      const access_token = response.data;
       console.log("Access Token:", access_token);
-      console.log("userInfo:", userInfo);
     } catch (error) {
       console.error("Login request failed:", error);
     }

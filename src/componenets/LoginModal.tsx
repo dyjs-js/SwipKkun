@@ -18,12 +18,7 @@ import { FaLock, FaUserAlt } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import {
-  IUserEmailLoginVariables,
-  IUserEailLoginError,
-  IUserEmailLoginSuccess,
-  userEmailLogIn,
-} from "../api";
+import { userEmailLogIn } from "../api";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -39,13 +34,17 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IForm>();
+
   //email password확인
   const onSubmit = ({ email, password }: IForm) => {
+    console.log(email, password);
     mutation.mutate({ email, password });
   };
   const toast = useToast();
 
+  //mutation함수 queryclient.refetchqueries확인
   const mutation = useMutation(userEmailLogIn, {
     onMutate: () => {
       console.log("mutation starting");
@@ -56,14 +55,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         status: "success",
       });
       onClose();
-    },
-    onError: (error) => {
-      console.log("mutation has an error", error);
-      toast({
-        title: "Error",
-      });
+      reset();
     },
   });
+
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -111,6 +106,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               />
             </InputGroup>
           </VStack>
+          {mutation.isError ? (
+            <Text color="red.500" textAlign={"center"} fontSize="sm">
+              username or password가 틀렸습니다.
+            </Text>
+          ) : null}
           <Button
             isLoading={mutation.isLoading}
             type="submit"

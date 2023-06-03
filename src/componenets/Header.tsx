@@ -16,6 +16,7 @@ import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { GoOctoface } from "react-icons/go";
 import useUser from "../lib/useUser";
+import { useMutation } from "react-query";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -72,27 +73,29 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  color={"gray.700"}
-                  variant={"ghost"}
-                  aria-label="myPage"
-                  icon={<FaUser size="25px" />}
-                />
+              <Box>
+                <Menu>
+                  <MenuButton
+                    as={IconButton}
+                    color={"gray.700"}
+                    variant={"ghost"}
+                    aria-label="myPage"
+                    icon={<FaUser size="25px" />}
+                  />
 
-                <MenuList>
-                  <Link to="/articles/upload">
-                    <MenuItem>마이페이지</MenuItem>
-                  </Link>
-                  <Link to="/articles/upload">
-                    <MenuItem>대여글 올리기</MenuItem>
-                  </Link>
-                  <Link to="/articles/upload">
-                    <MenuItem>로그아웃</MenuItem>
-                  </Link>
-                </MenuList>
-              </Menu>
+                  <MenuList>
+                    <Link to="/articles/upload">
+                      <MenuItem>마이페이지</MenuItem>
+                    </Link>
+                    <Link to="/articles/upload">
+                      <MenuItem>대여글 올리기</MenuItem>
+                    </Link>
+                    <Link to="/articles/upload">
+                      <MenuItem>로그아웃</MenuItem>
+                    </Link>
+                  </MenuList>
+                </Menu>
+              </Box>
               <IconButton
                 color={"gray.700"}
                 variant={"ghost"}
