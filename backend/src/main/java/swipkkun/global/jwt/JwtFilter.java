@@ -34,17 +34,9 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String accessToken = authorization.split(" ")[1];
-
-        try {
-            tokenProvider.validateToken(accessToken, jwtKey);
-        } catch (MemberException e) {
-            log.error("토큰 문제 있는뎁쇼");
-            filterChain.doFilter(request, response);
-            return;
-        }
+        tokenProvider.validateToken(accessToken, jwtKey);
 
         Authentication authentication = tokenProvider.getAuthentication(accessToken, jwtKey);
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
         // request에 인증됐다고 도장이 찍히고 통과가 된다

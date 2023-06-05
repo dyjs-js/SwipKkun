@@ -1,6 +1,7 @@
 package swipkkun.domain.member.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,10 +10,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import swipkkun.domain.RentalPost.entity.RentalPost;
+import swipkkun.domain.rentalreview.entity.RentalReview;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,6 +41,12 @@ public class Member implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<RentalReview> rentalReviews;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<RentalPost> rentalPosts;
 
     @CreatedDate
     private LocalDateTime createdDate;
