@@ -210,11 +210,17 @@ public class ProductController {
 	) throws Exception {
 		// 상품정보 추가
 		ProductVO productvo = new ProductVO();
+		String product_price = request.getParameter("product_price");
+		
+		if(product_price != null) {
+			product_price = product_price.replaceAll(" ", "");
+		}
 		
 		productvo.setProduct_name(request.getParameter("product_name"));
-		productvo.setProduct_eng_name(request.getParameter("product_eng_name"));
-		productvo.setProduct_day_bak(request.getParameter("product_day_bak"));
-		productvo.setProduct_price(request.getParameter("product_price"));
+		productvo.setPrecaution(request.getParameter("precaution"));
+		productvo.setProduct_content(request.getParameter("product_content"));
+		productvo.setProduct_address(request.getParameter("product_address"));
+		productvo.setProduct_price(product_price);
 		
 		MultipartFile imgFile = null;
 		
@@ -262,10 +268,17 @@ public class ProductController {
 		ProductVO productvo = new ProductVO();
 		
 		productvo.setProduct_idx(Integer.parseInt(request.getParameter("product_idx")));
+		String product_price = request.getParameter("product_price");
+		
+		if(product_price != null) {
+			product_price = product_price.replaceAll(" ", "");
+		}
+		
 		productvo.setProduct_name(request.getParameter("product_name"));
-		productvo.setProduct_eng_name(request.getParameter("product_eng_name"));
-		productvo.setProduct_day_bak(request.getParameter("product_day_bak"));
-		productvo.setProduct_price(request.getParameter("product_price"));
+		productvo.setPrecaution(request.getParameter("precaution"));
+		productvo.setProduct_content(request.getParameter("product_content"));
+		productvo.setProduct_address(request.getParameter("product_address"));
+		productvo.setProduct_price(product_price);
 		
 		MultipartFile imgFile = null;
 		
