@@ -7,9 +7,6 @@
 	        <map>
 	        	<entry key="pageUnit" value="10"/>
 	        	<entry key="pageSize" value="10"/>
-	        	
-	        	<entry key="Globals.fileUploadPath" value="${fileupload.path}"/>
-	        	<entry key="Globals.fileExcelPath" value="${excel.path}"/>
 	        </map>
 		</property>
 	</bean>
