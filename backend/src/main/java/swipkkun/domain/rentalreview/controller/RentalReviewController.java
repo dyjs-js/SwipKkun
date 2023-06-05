@@ -1,5 +1,6 @@
 package swipkkun.domain.rentalreview.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -44,16 +45,20 @@ public class RentalReviewController {
 
 
     @PostMapping("/create-review")
-    public String createReview(@RequestBody ReviewCreateRequestDto reviewCreateRequestDto) {
-        rentalReviewService.createReview(reviewCreateRequestDto);
-        return "success";
+    public ResponseEntity<Map<String, Object>> createReview(@RequestBody ReviewCreateRequestDto reviewCreateRequestDto) {
+        int rentalReviewId = rentalReviewService.createReview(reviewCreateRequestDto);
+        Map<String, Object> res = new HashMap<>();
+        res.put("create_success", true);
+        res.put("rental_review_id", rentalReviewId);
+
+        return ResponseEntity.ok().body(res);
     }
 
-    @DeleteMapping("/delete-review/{rentalReviewId}")
-    public ResponseEntity<Map<String, Boolean>> deleteReview(@PathVariable("rentalReviewId") int rentalReviewId) {
+    @DeleteMapping("/delete-review/{rental_review_id}")
+    public ResponseEntity<Map<String, Boolean>> deleteReview(@PathVariable("rental_review_id") int rentalReviewId) {
         boolean deleteResult = rentalReviewService.deleteReview(rentalReviewId);
         Map<String, Boolean> result = new HashMap<>();
-        result.put("delete_sucess", deleteResult);
+        result.put("delete_success", deleteResult);
         return ResponseEntity.ok().body(result);
     }
 }

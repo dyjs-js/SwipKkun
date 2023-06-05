@@ -34,7 +34,7 @@ public class RentalReviewService {
         return member.getRentalReviews();
     }
 
-    public void createReview(ReviewCreateRequestDto reviewCreateRequestDto) {
+    public int createReview(ReviewCreateRequestDto reviewCreateRequestDto) {
         validateReviewCreateRequest(reviewCreateRequestDto);
 
         Member member = memberRepository
@@ -49,6 +49,8 @@ public class RentalReviewService {
         rentalReview.setRentalReviewScore(reviewCreateRequestDto.getRentalReviewScore());
 
         rentalReviewRepository.save(rentalReview);
+
+        return rentalReview.getRentalReviewId();
     }
 
     private void validateReviewCreateRequest(ReviewCreateRequestDto reviewCreateRequestDto) {
