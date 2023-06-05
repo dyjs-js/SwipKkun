@@ -11,14 +11,13 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-// import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 export default function ArticleDetail() {
-  const [dates, setDates] = useState();
+  const [dates, setDates] = useState<Date>();
   const handleDateChange = (value: any) => {
     setDates(value);
   };

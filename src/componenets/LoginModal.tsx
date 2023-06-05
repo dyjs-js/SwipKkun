@@ -17,7 +17,7 @@ import {
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userEmailLogIn } from "../api";
 
 interface LoginModalProps {
@@ -36,15 +36,15 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     formState: { errors },
     reset,
   } = useForm<IForm>();
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
-  //email password확인
+  //email password mutation으로 전달
   const onSubmit = ({ email, password }: IForm) => {
-    console.log(email, password);
     mutation.mutate({ email, password });
   };
-  const toast = useToast();
 
-  //mutation함수 queryclient.refetchqueries확인
+  //로그인 여부를 체크하는 함수
   const mutation = useMutation(userEmailLogIn, {
     onMutate: () => {
       console.log("mutation starting");
@@ -55,6 +55,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         status: "success",
       });
       onClose();
+      queryClient.refetchQueries(["me"]);
       reset();
     },
   });

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-// interface LoginForm {
-//   email: string;
-//   password: string;
-// }
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
-const Login: React.FC = () => {
+const Apitest: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8080/api/auth/login",
@@ -20,7 +21,8 @@ const Login: React.FC = () => {
           password,
         }
       );
-      const access_token = response.data;
+      const { access_token } = response.data;
+      // Save the access token or perform other operations
       console.log("Access Token:", access_token);
     } catch (error) {
       console.error("Login request failed:", error);
@@ -55,4 +57,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Apitest;

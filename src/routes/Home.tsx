@@ -3,14 +3,8 @@ import Article from "../componenets/Article";
 import ArticleSkeleton from "../componenets/ArticleSkeleton";
 import Search from "../componenets/Search";
 import MainImage from "../componenets/MainImage";
-// import { useQuery } from "@tanstack/react-query";
-// import { getTest } from "../api";
 
 export default function Home() {
-  // api 연결 테스트
-  // const { isLoading, data } = useQuery(["signups"], getTest);
-  // console.log(data);
-
   return (
     <VStack>
       <Box>

@@ -19,8 +19,12 @@ import { FaLock, FaPhone, FaUserAlt, FaUserSecret } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { userMailSignup } from "../api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  CheckEmailDuplication,
+  CheckNicknameDuplication,
+  userMailSignup,
+} from "../api";
 
 interface SignUpModalProps {
   isOpen: boolean;
@@ -35,8 +39,7 @@ interface IForm {
 }
 
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+  //회원가입 후 이상없으면 -> 로그인 성공처리
   const {
     register,
     handleSubmit,
@@ -44,6 +47,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
     reset,
   } = useForm<IForm>();
   const toast = useToast();
+  const queryClient = useQueryClient();
   const mutation = useMutation(userMailSignup, {
     onMutate: () => {
       console.log("mutation starting");
@@ -54,17 +58,45 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
         status: "success",
       });
       onClose();
+      queryClient.refetchQueries(["me"]);
       reset();
     },
   });
-  const onSubmit = ({ email, password, nickname, phone }: IForm) => {
-    // console.log(email, password, nickname, phone);
+  const onSubmited = ({ email, password, nickname, phone }: IForm) => {
     mutation.mutate({ email, password, nickname, phone });
   };
-
+  //패스워드 보여주기
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const handleConfirmPasswordClick = () =>
     setshowConfirmPassword(!showConfirmPassword);
+
+  //이메일 중복확인
+  const [isEmailDuplicated, SetIsEmailDuplicated] = useState("");
+  const verifyEmail = async () => {
+    try {
+      const response = await CheckEmailDuplication({
+        email: isEmailDuplicated,
+      });
+      console.log(response); // response 확인
+      alert(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //닉네임 중복확인
+  const [isNicknameDuplicated, SetIsNicknameDuplicated] = useState("");
+  const verifyNickname = async () => {
+    try {
+      const response = await CheckNicknameDuplication({
+        nickname: isNicknameDuplicated,
+      });
+      alert(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
@@ -72,7 +104,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
       <ModalContent>
         <ModalHeader>Sign up</ModalHeader>
         <ModalCloseButton />
-        <ModalBody as="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalBody as="form" onSubmit={handleSubmit(onSubmited)}>
           <VStack>
             <Text>Enjoy Swipkkun</Text>
             <InputGroup>
@@ -85,19 +117,25 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
               />
               <Input
                 required
-                isInvalid={Boolean(errors.email?.message)}
                 {...register("email", {
                   required: "Please write a email",
                 })}
                 variant={"filled"}
                 placeholder="Email address"
+                onChange={(e) => SetIsEmailDuplicated(e.target.value)}
               />
               <InputRightElement width="4.5rem">
-                <Button color="gray.600" h="1.75rem" size="sm">
+                <Button
+                  onClick={verifyEmail}
+                  color="gray.600"
+                  h="1.75rem"
+                  size="sm"
+                >
                   Verify
                 </Button>
               </InputRightElement>
             </InputGroup>
+
             <InputGroup>
               <InputLeftElement
                 children={
@@ -172,7 +210,18 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 })}
                 variant={"filled"}
                 placeholder="Nickname"
+                onChange={(e) => SetIsNicknameDuplicated(e.target.value)}
               />
+              <InputRightElement width="4.5rem">
+                <Button
+                  onClick={verifyNickname}
+                  color="gray.600"
+                  h="1.75rem"
+                  size="sm"
+                >
+                  Verify
+                </Button>
+              </InputRightElement>
             </InputGroup>
             <InputGroup>
               <InputLeftElement
@@ -191,11 +240,6 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
                 variant={"filled"}
                 placeholder="Phone number"
               />
-              <InputRightElement width="4.5rem">
-                <Button color="gray.600" h="1.75rem" size="sm">
-                  Verify
-                </Button>
-              </InputRightElement>
             </InputGroup>
           </VStack>
           <Button

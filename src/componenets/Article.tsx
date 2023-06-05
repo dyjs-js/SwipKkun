@@ -33,7 +33,7 @@ export default function Article() {
           </Grid>
         </Box>
         <Text fontSize={"sm"} color="gray.500">
-          <Text as="b">40,000 won</Text>/24hours
+          <Text as="b">₩ 40,000</Text>/24hours
         </Text>
       </VStack>
     </Link>

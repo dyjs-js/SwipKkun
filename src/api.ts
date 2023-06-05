@@ -4,25 +4,25 @@ const instance = axios.create({
   baseURL: "http://127.0.0.1:8080/api/auth",
 });
 //login
-export interface IUserEmailLoginReuqest {
+export interface IUserLogin {
   email: string;
   password: string;
 }
 
 //signup
-export interface IUserSignupReuqest {
+export interface IUserSignup {
   email: string;
   password: string;
   nickname: string;
   phone: string;
 }
 
-//나중에 삭제할 수 있으면 삭제할거..
-export interface IUserEmailLoginSuccess {
-  ok: string;
+export interface IUserCheckEmail {
+  email: string;
 }
-export interface IUserEmailLoginError {
-  error: string;
+
+export interface IUserCheckNickname {
+  nickname: string;
 }
 
 // access token을 header에 전달하는 인터셉터
@@ -30,14 +30,10 @@ instance.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      console.log("1" + token);
-      const parsedToken = JSON.parse(token);
-      const accessToken = parsedToken.access_token;
-      console.log("2" + accessToken);
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
+      console.log(token);
+      config.headers["Authorization"] = `Bearer ${token}`;
       console.log("3" + config.headers["Authorization"]);
     }
-
     return config;
   },
   (error) => {
@@ -51,62 +47,51 @@ export const userMailSignup = async ({
   password,
   nickname,
   phone,
-}: IUserSignupReuqest) => {
+}: IUserSignup) => {
   {
     const response = await instance.post(
       "/signup",
       { email, password, nickname, phone },
       {}
     );
-    const access_token = response.data;
-    localStorage.setItem("access_token", JSON.stringify(access_token));
-    console.log("signup: " + JSON.stringify(access_token));
+    const access_token = response.data.access_token;
+    const member_id = response.data.member_id;
+    localStorage.setItem("access_token", access_token);
+    localStorage.setItem("member_id", member_id);
+    console.log("signup: " + access_token);
     return response.data;
   }
 };
 //로그인 후 access token 정보를 가져옴
-export const userEmailLogIn = async ({
-  email,
-  password,
-}: IUserEmailLoginReuqest) => {
+export const userEmailLogIn = async ({ email, password }: IUserLogin) => {
   const response = await instance.post("/login", { email, password }, {});
-  const access_token = response.data;
-  localStorage.setItem("access_token", JSON.stringify(access_token));
-  console.log("login " + JSON.stringify(access_token));
+  console.log(response.data);
+  const access_token = response.data.access_token;
+  const member_id = response.data.member_id;
+
+  localStorage.setItem("access_token", access_token);
+  localStorage.setItem("member_id", member_id);
+  console.log("login " + access_token);
   return response.data;
 };
 
 // 로그인 후 멤버 정보를 가져옴
 export const GetMember = () => {
-  return instance.get("/member/117").then((response) => response.data);
+  const memberId = localStorage.getItem("member_id");
+  console.log("getmember" + memberId);
+  return instance.get(`/member/${memberId}`).then((response) => response.data);
 };
 
-// 로그인 후 access token 정보를 가져옴
-// export const userEmailLogIn = ({ email, password }: IUserEmailLoginReuqest) =>
-//   instance.post("/login", { email, password }, {}).then((response) => {
-//     const access_token = response.data;
-//     localStorage.setItem("access_token", JSON.stringify(access_token));
-//     console.log("4" + JSON.stringify(access_token));
+// 이메일 중복 체크
+export const CheckEmailDuplication = async ({ email }: IUserCheckEmail) => {
+  const response = await instance.post("/check-email", { email }, {});
+  return response.data;
+};
 
-//     return response.data;
-//   });
-// instance.interceptors.request.use(
-//   async (config) => {
-//     const token = localStorage.getItem("access_token"); // Retrieve access_token from localStorage as string
-//     // Bearer 토큰 설정
-
-//     if (token) {
-//       console.log("1" + token);
-//       const parsedToken = JSON.parse(token);
-//       const accessToken = parsedToken.access_token;
-//       console.log("2" + accessToken);
-//       config.headers["Authorization"] = `Bearer ${accessToken}`;
-//       console.log("3" + config.headers["Authorization"]);
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+//닉네임 중복 체크
+export const CheckNicknameDuplication = async ({
+  nickname,
+}: IUserCheckNickname) => {
+  const response = await instance.post("/check-nickname", { nickname }, {});
+  return response.data;
+};

@@ -10,13 +10,13 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaShoppingCart, FaSyncAlt, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaHome, FaShoppingCart, FaUser } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { GoOctoface } from "react-icons/go";
 import useUser from "../lib/useUser";
-import { useMutation } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -31,6 +31,17 @@ export default function Header() {
     onClose: onSignUpClose,
     onOpen: onSignUpOpen,
   } = useDisclosure();
+
+  //로그아웃 관련
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("member_id");
+
+    navigate("/");
+    queryClient.refetchQueries(["me"]);
+  };
 
   return (
     <Stack
@@ -48,9 +59,14 @@ export default function Header() {
       }}
       borderBottomWidth={1}
     >
-      <Box color={"green.800"}>
+      <Box
+        color={"gray.700"}
+        _hover={{
+          color: "green.700",
+        }}
+      >
         <Link to="/">
-          <FaSyncAlt size={"40"} />
+          <FaHome size={"40"} />
         </Link>
       </Box>
 
@@ -84,15 +100,14 @@ export default function Header() {
                   />
 
                   <MenuList>
-                    <Link to="/articles/upload">
+                    <Link to="/mypage">
                       <MenuItem>마이페이지</MenuItem>
                     </Link>
                     <Link to="/articles/upload">
                       <MenuItem>대여글 올리기</MenuItem>
                     </Link>
-                    <Link to="/articles/upload">
-                      <MenuItem>로그아웃</MenuItem>
-                    </Link>
+
+                    <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
                   </MenuList>
                 </Menu>
               </Box>
