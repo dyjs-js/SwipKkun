@@ -58,9 +58,6 @@ public class ProductController {
 		String searchOrderBy = request.getParameter("searchOrderBy");
 		String searchOrderGb = request.getParameter("searchOrderGb");
 		
-		System.out.println("searchOrderBy -->>> " + searchOrderBy);
-		System.out.println("searchOrderGb -->>> " + searchOrderGb);
-		
 		productvo.setSearchOrderBy(searchOrderBy);
 		productvo.setSearchOrderGb(searchOrderGb);
 		
