@@ -120,8 +120,9 @@ $(document).ready(function(){
 			</div>
 			<div class="rf">
 				<div class="first"><input type="text" id="product_name" name="product_name" value="${result.product_name}" /></div>
-				<div class="second"><input type="text" id="product_eng_name" name="product_eng_name" value="${result.product_eng_name}" /></div>
-				<div class="third"><input type="text" id="product_day_bak" name="product_day_bak" value="${result.product_day_bak}" />박 / <input type="text" id="product_price" name="product_price" value="${result.product_price}" />원</div>
+				<div class="second">Mari gray and Hail Grey and oak</div>
+				<div class="third">1박 / <input type="text" id="product_price" name="product_price" value="${result.product_price}" />원</div>
+				<div class="third"><input type="text" id="product_address" name="product_address" value="${result.product_address}" /></div>
 			</div>
 		</div>
 		
@@ -132,6 +133,9 @@ $(document).ready(function(){
 				<div style="border-bottom:1px solid #FFB876; padding-bottom:20px; font-size:18pt;">상품설명</div>
 				<div style="padding-top:20px; padding-bottom:20px;">
 					<textarea name="product_content" id="product_content">${result.product_content}</textarea>
+				</div>
+				<div style="padding-top:10px; padding-bottom:10px;">
+					<textarea id="precaution" name="precaution" style="height:50px;">${result.precaution}</textarea>
 				</div>
 				<div style="padding-top:20px;">
 					<input type="text" name="product_hash_tag" value="${result.product_hash_tag}" style="width:100%;" />
@@ -153,23 +157,23 @@ $(document).ready(function(){
 				<div style="padding-bottom:20px; font-size:18pt;">리뷰</div>
 				<div style="padding-top:20px; padding-bottom:20px;">
 					<div style="padding-top:10px; padding-bottom:10px;">
-						<c:if test="${result.review_score_avg == 5}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_5.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg == 5}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_5.png" /> ${result.rental_review_score_avg}
 						</c:if>
-						<c:if test="${result.review_score_avg >= 4 && result.review_score_avg < 5}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_4.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg >= 4 && result.rental_review_score_avg < 5}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_4.png" /> ${result.rental_review_score_avg}
 						</c:if>
-						<c:if test="${result.review_score_avg >= 3 && result.review_score_avg < 4}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_3.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg >= 3 && result.rental_review_score_avg < 4}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_3.png" /> ${result.rental_review_score_avg}
 						</c:if>
-						<c:if test="${result.review_score_avg >= 2 && result.review_score_avg < 3}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_2.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg >= 2 && result.rental_review_score_avg < 3}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_2.png" /> ${result.rental_review_score_avg}
 						</c:if>
-						<c:if test="${result.review_score_avg >= 1 && result.review_score_avg < 2}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_1.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg >= 1 && result.rental_review_score_avg < 2}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_1.png" /> ${result.rental_review_score_avg}
 						</c:if>
-						<c:if test="${result.review_score_avg == '' || result.review_score_avg == null || result.review_score_avg < 1}">
-							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_0.png" /> ${result.review_score_avg}
+						<c:if test="${result.rental_review_score_avg == '' || result.rental_review_score_avg == null || result.rental_review_score_avg < 1}">
+							<img src="${pageContext.request.contextPath}/assets/img/product/review_info_0.png" /> ${result.rental_review_score_avg}
 						</c:if>
 					</div>
 					<div style="padding-top:10px; padding-bottom:10px;">
@@ -181,29 +185,29 @@ $(document).ready(function(){
 				<ul>
 					<c:forEach var="review" items="${reviewList}" varStatus="status">
 						<li class="indexOdd" style="padding-top:50px; padding-bottom:50px; border-bottom:1px solid #e9e9e9;">
-							<div style="float:left">${review.review_writer}<br/>
-								<c:if test="${review.review_score == 5}">
+							<div style="float:left">${review.nickname}<br/>
+								<c:if test="${review.rental_review_score == 5}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_05.png" />
 								</c:if>
-								<c:if test="${review.review_score >= 4 && review.review_score < 5}">
+								<c:if test="${review.rental_review_score >= 4 && review.rental_review_score < 5}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_04.png" />
 								</c:if>
-								<c:if test="${review.review_score >= 3 && review.review_score < 4}">
+								<c:if test="${review.rental_review_score >= 3 && review.rental_review_score < 4}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_03.png" />
 								</c:if>
-								<c:if test="${review.review_score >= 2 && review.review_score < 3}">
+								<c:if test="${review.rental_review_score >= 2 && review.rental_review_score < 3}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_02.png" />
 								</c:if>
-								<c:if test="${review.review_score >= 1 && review.review_score < 2}">
+								<c:if test="${review.rental_review_score >= 1 && review.rental_review_score < 2}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_01.png" />
 								</c:if>
-								<c:if test="${review.review_score == '' || review.review_score == null || review.review_score < 1}">
+								<c:if test="${review.rental_review_score == '' || review.rental_review_score == null || review.rental_review_score < 1}">
 									<img src="${pageContext.request.contextPath}/assets/img/small_review_00.png" />
 								</c:if>
 							</div>
-							<div style="float:right">${review.reg_date}</div>
+							<div style="float:right">${review.created_date}</div>
 							<div style="clear:both;"></div>
-							<div>${review.review_content}</div>
+							<div>${review.rental_review_content}</div>
 						</li>
 					</c:forEach>
 					
@@ -235,7 +239,7 @@ $(document).ready(function(){
 							<a href="${pageContext.request.contextPath}/product/view.do?product_idx=${resultNot.product_idx}">
 								<div><img src="${resultNot.product_img}" /></div>
 								<div>${resultNot.product_name}</div>
-								<div>${resultNot.product_day_bak}박 / <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultNot.product_price}" />원</div>
+								<div>1박 / <fmt:formatNumber type="number" maxFractionDigits="3" value="${resultNot.product_price}" />원</div>
 							</a>
 						</li>
 					</c:forEach>
