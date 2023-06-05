@@ -10,7 +10,7 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ReviewCreateRequestDto {
     private int memberId;
-    private int rentalPostId;
+    private int productIdx;
     private String rentalReviewContent;
     private int rentalReviewScore;
 }

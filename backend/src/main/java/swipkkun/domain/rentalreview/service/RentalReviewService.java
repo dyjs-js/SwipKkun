@@ -3,6 +3,10 @@ package swipkkun.domain.rentalreview.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import swipkkun.domain.RentalPost.entity.RentalPost;
+import swipkkun.domain.RentalPost.exception.RentalPostErrorCode;
+import swipkkun.domain.RentalPost.exception.RentalPostException;
+import swipkkun.domain.RentalPost.repository.RentalPostRepository;
 import swipkkun.domain.member.entity.Member;
 import swipkkun.domain.member.exception.MemberErrorCode;
 import swipkkun.domain.member.exception.MemberException;
@@ -20,8 +24,8 @@ import java.util.List;
 @Transactional
 public class RentalReviewService {
     private final MemberRepository memberRepository;
+    private final RentalPostRepository rentalPostRepository;
     private final RentalReviewRepository rentalReviewRepository;
-
 
     public List<RentalReview> getMemberReviews(int member_id) {
         Member member = memberRepository.findByMemberId(member_id).
@@ -33,12 +37,14 @@ public class RentalReviewService {
     public void createReview(ReviewCreateRequestDto reviewCreateRequestDto) {
         validateReviewCreateRequest(reviewCreateRequestDto);
 
-        Member member = memberRepository.findByMemberId(reviewCreateRequestDto.getMemberId())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.ID_NOT_FOUND, "일치하는 유저가 없습니다"));
+        Member member = memberRepository
+                .findByMemberId(reviewCreateRequestDto.getMemberId()).get();
+        RentalPost rentalPost = rentalPostRepository
+                .findRentalPostByProductIdx(reviewCreateRequestDto.getProductIdx()).get();
 
         RentalReview rentalReview = new RentalReview();
         rentalReview.setMember(member);
-        rentalReview.setRentalPostId(reviewCreateRequestDto.getRentalPostId());
+        rentalReview.setRentalPost(rentalPost);
         rentalReview.setRentalReviewContent(reviewCreateRequestDto.getRentalReviewContent());
         rentalReview.setRentalReviewScore(reviewCreateRequestDto.getRentalReviewScore());
 
@@ -47,22 +53,26 @@ public class RentalReviewService {
 
     private void validateReviewCreateRequest(ReviewCreateRequestDto reviewCreateRequestDto) {
         int memberId = reviewCreateRequestDto.getMemberId();
-        int rentalPostId = reviewCreateRequestDto.getRentalPostId();
+        int productIdx = reviewCreateRequestDto.getProductIdx();
         String rentalReviewContent = reviewCreateRequestDto.getRentalReviewContent();
         int rentalReviewScore = reviewCreateRequestDto.getRentalReviewScore();
 
         checkMemberExist(memberId);
-        checkRentalPostExist(rentalPostId);
+        checkRentalPostExist(productIdx);
         checkReviewContent(rentalReviewContent);
         checkReviewScore(rentalReviewScore);
     }
 
     private void checkMemberExist(int memberId) {
-        ;
+        memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.ID_NOT_FOUND,
+                        "일치하는 유저가 없습니다"));
     }
 
-    private void checkRentalPostExist(int postId) {
-        ;
+    private void checkRentalPostExist(int productIdx) {
+        rentalPostRepository.findRentalPostByProductIdx(productIdx)
+                .orElseThrow(() -> new RentalPostException(RentalPostErrorCode.RENTAL_POST_NOT_FOUND,
+                        "일치하는 대여글이 없습니다"));
     }
 
     private void checkReviewContent(String content) {

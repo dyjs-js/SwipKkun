@@ -5,7 +5,10 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import swipkkun.domain.RentalPost.entity.RentalPost;
 import swipkkun.domain.member.entity.Member;
+import swipkkun.domain.rentalreview.dto.ReviewResponseDto;
+import swipkkun.domain.rentalreview.dto.ReviewsResponseDto;
 
 import java.time.LocalDateTime;
 
@@ -18,12 +21,13 @@ public class RentalReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rentalReviewId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "rental_post_id", nullable = false)
-    private int rentalPostId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_idx", nullable = false)
+    private RentalPost rentalPost;
 
     @Column(name = "rental_review_content", nullable = false)
     private String rentalReviewContent;
@@ -36,4 +40,16 @@ public class RentalReview {
 
     @LastModifiedDate
     private LocalDateTime updatedDate;
+
+    public ReviewResponseDto toDto() {
+        return ReviewResponseDto.builder()
+                .rentalReviewId(rentalReviewId)
+                .memberId(member.getMemberId())
+                .writerNickname(member.getNickname())
+                .productIdx(rentalPost.getProductIdx())
+                .rentalReviewContent(rentalReviewContent)
+                .rentalReviewScore(rentalReviewScore)
+                .updatedDate(updatedDate)
+                .build();
+    }
 }

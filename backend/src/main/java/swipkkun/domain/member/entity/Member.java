@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import swipkkun.domain.RentalPost.entity.RentalPost;
 import swipkkun.domain.rentalreview.entity.RentalReview;
 
 import java.time.LocalDateTime;
@@ -43,6 +44,9 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<RentalReview> rentalReviews;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<RentalPost> rentalPosts;
 
     @CreatedDate
     private LocalDateTime createdDate;

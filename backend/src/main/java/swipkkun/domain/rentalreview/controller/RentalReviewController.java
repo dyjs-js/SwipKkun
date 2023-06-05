@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import swipkkun.domain.RentalPost.entity.RentalPost;
+import swipkkun.domain.RentalPost.service.RentalPostService;
 import swipkkun.domain.rentalreview.dto.ReviewCreateRequestDto;
+import swipkkun.domain.rentalreview.dto.ReviewResponseDto;
+import swipkkun.domain.rentalreview.dto.ReviewsResponseDto;
 import swipkkun.domain.rentalreview.entity.RentalReview;
 import swipkkun.domain.rentalreview.service.RentalReviewService;
 
@@ -16,15 +20,28 @@ import java.util.*;
 @Slf4j
 public class RentalReviewController {
     private final RentalReviewService rentalReviewService;
+    private final RentalPostService rentalPostService;
 
-//    @GetMapping("/reviews/{id}")
-//    public ResponseEntity<String> getReviews(@PathVariable("id") int id) {
-//        List<RentalReview> reviews = rentalReviewService.getMemberReviews(id);
-//        for (RentalReview review : reviews) {
-//            log.info("내용 : {}", review.getRentalReviewContent());
-//        }
-//        return ResponseEntity.ok().body("reviews");
-//    }
+    @GetMapping("/reviews/{product_idx}")
+    public ResponseEntity<ReviewsResponseDto> getReviews(@PathVariable("product_idx") int productIdx) {
+        RentalPost rentalPost = rentalPostService.getRentalReview(productIdx);
+        List<RentalReview> reviews = rentalPost.getRentalReviews();
+
+        List<ReviewResponseDto> reviewDtos = new ArrayList<>();
+        double reviewScoreSum = 0;
+        for (RentalReview review : reviews) {
+            reviewDtos.add(review.toDto());
+            reviewScoreSum += review.getRentalReviewScore();
+        }
+
+        ReviewsResponseDto reviewsResponse = ReviewsResponseDto.builder()
+                .averageReviewScore(Math.round(reviewScoreSum / reviews.size() * 10.0) / 10.0)
+                .reviews(reviewDtos)
+                .build();
+
+        return ResponseEntity.ok().body(reviewsResponse);
+    }
+
 
     @PostMapping("/create-review")
     public String createReview(@RequestBody ReviewCreateRequestDto reviewCreateRequestDto) {
