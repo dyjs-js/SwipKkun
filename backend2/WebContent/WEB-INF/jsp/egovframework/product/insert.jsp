@@ -109,8 +109,9 @@ $(document).ready(function(){
 			</div>
 			<div class="rf">
 				<div class="first"><input type="text" id="product_name" name="product_name" /></div>
-				<div class="second"><input type="text" id="product_eng_name" name="product_eng_name" /></div>
-				<div class="third"><input type="text" id="product_day_bak" name="product_day_bak" />박 / <input type="text" id="product_price" name="product_price" />원</div>
+				<div class="second">Mari gray and Hail Grey and oak</div>
+				<div class="third">1박 / <input type="text" id="product_price" name="product_price" />원</div>
+				<div class="third"><input type="text" id="product_address" name="product_address" /></div>
 			</div>
 		</div>
 		
@@ -122,8 +123,11 @@ $(document).ready(function(){
 				<div style="padding-top:20px; padding-bottom:20px;">
 					<textarea name="product_content" id="product_content"></textarea>
 				</div>
+				<div style="padding-top:10px; padding-bottom:10px;">
+					<textarea id="precaution" name="precaution" style="height:50px;">${result.precaution}</textarea>
+				</div>
 				<div style="padding-top:20px;">
-					<input type="text" name="product_hash_tag" style="width:100%;" />
+					<input type="text" name="product_hash_tag" id="product_hash_tag" style="width:100%;" />
 				</div>
 			</div>
 			<div class="rf" style="padding-top:20px; float:right; width:476px; text-align:right; padding-right:100px; padding-bottom:50px;">
