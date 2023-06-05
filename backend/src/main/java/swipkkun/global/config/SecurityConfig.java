@@ -46,6 +46,7 @@ public class SecurityConfig {
 //                .anyRequest().authenticated() // 나머지에 대해선 인증을 받아야 한다.
                 .requestMatchers("/api/auth/member/{id}", "/api/auth/refresh").authenticated()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/rental-review/reviews/{product_idx}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(tokenProvider, jwtKey), UsernamePasswordAuthenticationFilter.class)
