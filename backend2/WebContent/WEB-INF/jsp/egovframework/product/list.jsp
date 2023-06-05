@@ -185,7 +185,7 @@
 				
 				<div id="sortListArea">
 					<ul id="sortListUL">
-						<c:if test="${param.searchOrderBy == 'reg_date' || param.searchOrderBy == '' || param.searchOrderBy == null}">
+						<c:if test="${param.searchOrderBy == 'created_date' || param.searchOrderBy == '' || param.searchOrderBy == null}">
 							<c:choose>
 								<c:when test="${param.searchOrderGb == '' || param.searchOrderGb == null || param.searchOrderGb == 'asc'}">
 									<c:set var="searchOrderGb1" value="DESC" />
@@ -215,7 +215,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:if>
-						<c:if test="${param.searchOrderBy == 'review_score'}">
+						<c:if test="${param.searchOrderBy == 'rental_review_score'}">
 							<c:choose>
 								<c:when test="${param.searchOrderGb == 'ASC' || param.searchOrderGb == '' || param.searchOrderGb == null}">
 									<c:set var="searchOrderGb4" value="DESC" />
@@ -227,7 +227,7 @@
 						</c:if>
 						
 						<c:choose>
-							<c:when test="${param.searchOrderBy != 'reg_date' && param.searchOrderBy != 'product_price' && param.searchOrderBy != 'hit_cnt' && param.searchOrderBy != 'review_score'}">
+							<c:when test="${param.searchOrderBy != 'created_date' && param.searchOrderBy != 'product_price' && param.searchOrderBy != 'hit_cnt' && param.searchOrderBy != 'rental_review_score'}">
 								<c:set var="searchOrderGb1" value="DESC" />
 								<c:set var="searchOrderGb2" value="DESC" />
 								<c:set var="searchOrderGb3" value="DESC" />
@@ -235,10 +235,10 @@
 							</c:when>
 						</c:choose>
 						
-						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=reg_date&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb1}" <c:if test="${param.searchOrderBy == 'reg_date'}">class="active"</c:if>>최신순</a></li>
+						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=created_date&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb1}" <c:if test="${param.searchOrderBy == 'created_date'}">class="active"</c:if>>최신순</a></li>
 						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=product_price&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb2}" <c:if test="${param.searchOrderBy == 'product_price'}">class="active"</c:if>>가격순</a></li>
 						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=hit_cnt&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb3}" <c:if test="${param.searchOrderBy == 'hit_cnt'}">class="active"</c:if>>조회순</a></li>
-						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=review_score&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb4}" <c:if test="${param.searchOrderBy == 'review_score'}">class="active"</c:if>>평점순</a></li>
+						<li><a href="${pageContext.request.contextPath}/product/list.do?searchOrderBy=rental_review_score&searchKeyword=${param.searchKeyword}&searchRagion=${param.searchRagion}&searchOrderGb=${searchOrderGb4}" <c:if test="${param.searchOrderBy == 'rental_review_score'}">class="active"</c:if>>평점순</a></li>
 					</ul>
 				</div>
 			</div>
@@ -251,26 +251,26 @@
 							<a href="${pageContext.request.contextPath}/product/view.do?product_idx=${result.product_idx}">
 								<div><img src="${result.product_img}" onerror="this.src='https://s.pstatic.net/static/www/img/uit/2019/sp_search.svg';" /></div>
 								<div>${result.product_name}</div>
-								<div>${result.product_day_bak}박/<fmt:formatNumber type="number" maxFractionDigits="3" value="${result.product_price}" />원</div>
+								<div>1박/<fmt:formatNumber type="number" maxFractionDigits="3" value="${result.product_price}" />원</div>
 								<div>&nbsp;&nbsp;</div>
 								<div>${result.product_address}</div>
 								<div>
-									<c:if test="${result.review_score_avg == 5}">
+									<c:if test="${result.rental_review_score_avg == 5}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_05.png" />
 									</c:if>
-									<c:if test="${result.review_score_avg >= 4 && result.review_score_avg < 5}">
+									<c:if test="${result.rental_review_score_avg >= 4 && result.rental_review_score_avg < 5}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_04.png" />
 									</c:if>
-									<c:if test="${result.review_score_avg >= 3 && result.review_score_avg < 4}">
+									<c:if test="${result.rental_review_score_avg >= 3 && result.rental_review_score_avg < 4}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_03.png" />
 									</c:if>
-									<c:if test="${result.review_score_avg >= 2 && result.review_score_avg < 3}">
+									<c:if test="${result.rental_review_score_avg >= 2 && result.rental_review_score_avg < 3}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_02.png" />
 									</c:if>
-									<c:if test="${result.review_score_avg >= 1 && result.review_score_avg < 2}">
+									<c:if test="${result.rental_review_score_avg >= 1 && result.rental_review_score_avg < 2}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_01.png" />
 									</c:if>
-									<c:if test="${result.review_score_avg == '' || result.review_score_avg == null || result.review_score_avg < 1}">
+									<c:if test="${result.rental_review_score_avg == '' || result.rental_review_score_avg == null || result.rental_review_score_avg < 1}">
 										<img src="${pageContext.request.contextPath}/assets/img/review_score_00.png" />
 									</c:if>
 								</div>
@@ -281,6 +281,10 @@
 						<li style="text-align:center; padding-top:100px; padding-bottom:100px;">등록된 자료가 없습니다.</li>
 					</c:if>
 				</ul>
+			</div>
+			
+			<div class="clboth" style="text-align:right; width:1200px; margin:0px auto;">
+				<input type="button" value="등록" onclick="javascript:location.href = '${pageContext.request.contextPath}/product/insert.do';" />
 			</div>
 			
 			<div class="clboth">
