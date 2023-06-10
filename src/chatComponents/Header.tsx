@@ -8,7 +8,7 @@ export default function Header() {
       </Avatar>
       <Flex flexDirection="column" mx="5" justify="center">
         <Text fontSize="lg" fontWeight="bold">
-          Chatbot
+          챗봇
         </Text>
         <Text color="green.500">대화가능</Text>
       </Flex>

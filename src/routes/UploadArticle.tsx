@@ -91,6 +91,9 @@ export default function UploadArticle() {
               <Input required type="text" />
               <FormHelperText>예시)) #노트북 #삼성전자 #품번</FormHelperText>
             </FormControl>
+            <Button type="submit" marginTop={4} colorScheme="teal" w="100%">
+              등록
+            </Button>
           </VStack>
         </Container>
         <RegionSelectorModal

@@ -6,7 +6,6 @@ import ArticlDetail from "./routes/ArticleDetail";
 import Chat from "./chatComponents/Chat";
 import UploadArticle from "./routes/UploadArticle";
 import Mypage from "./componenets/Mypage";
-import Apitest from "./componenets/Apitest";
 
 const router = createBrowserRouter([
   {
@@ -34,10 +33,6 @@ const router = createBrowserRouter([
       {
         path: "mypage",
         element: <Mypage />,
-      },
-      {
-        path: "apitest",
-        element: <Apitest />,
       },
     ],
   },

@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  Flex,
   Grid,
   HStack,
   Heading,
@@ -11,7 +12,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FaStar } from "react-icons/fa";
+import { FaArrowCircleRight, FaStar } from "react-icons/fa";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -39,15 +40,18 @@ export default function ArticleDetail() {
         </Grid>
         <Box textAlign={"center"}>
           <Box>
-            <Heading fontSize="lg">
+            <Heading fontSize="2xl">
               삼성전자 갤럭시북2 프로360 NT950QEW-A51A
             </Heading>
-            <Text as="b">40,000 won</Text>/24hours
+            <Text fontSize={20} color={"gray.600"} as="b">
+              ₩ 40,000
+            </Text>
+            /24시간
           </Box>
         </Box>
       </HStack>
       <Divider />
-      <Grid mt={10} gap={20} templateColumns={"2fr 1fr"} maxW={"container.lg"}>
+      <Grid mt={10} gap={20} templateColumns={"2fr 1fr"} maxW={"container.xl"}>
         <Box>
           <HStack justifyContent={"space-between"} alignItems={"flex-start"}>
             <VStack alignItems="flex-start">
@@ -114,19 +118,30 @@ export default function ArticleDetail() {
           </Box>
         </Box>
 
-        <Box mt={10}>
-          {" "}
-          <Calendar
-            minDate={new Date()}
-            maxDate={new Date(Date.now() + 60 * 60 * 24 * 7 * 4 * 6 * 1000)} //6개월동안만 검색가능
-            minDetail="year"
-            next2Label={null}
-            prev2Label={null}
-            locale="en-US"
-            onChange={handleDateChange}
-            selectRange
-          />
-          <Button>Reservation</Button>
+        <Box mt={10} style={{ justifyContent: "center" }}>
+          <Flex justifyContent={"center"}>
+            {" "}
+            <Calendar
+              minDate={new Date()}
+              maxDate={new Date(Date.now() + 60 * 60 * 24 * 7 * 4 * 6 * 1000)} //6개월동안만 검색가능
+              minDetail="year"
+              next2Label={null}
+              prev2Label={null}
+              locale="en-US"
+              onChange={handleDateChange}
+              selectRange
+            />
+          </Flex>
+          <Flex mt={15} justifyContent={"center"}>
+            {" "}
+            <Button
+              rightIcon={<FaArrowCircleRight />}
+              colorScheme="teal"
+              variant="outline"
+            >
+              Reservation
+            </Button>
+          </Flex>
           <Text></Text>
         </Box>
       </Grid>

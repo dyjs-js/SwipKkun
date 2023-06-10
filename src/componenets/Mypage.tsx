@@ -2,8 +2,17 @@ import { Box, Divider, Grid, HStack, Heading } from "@chakra-ui/react";
 import MypageCard from "./MypageCard";
 import { FaGift, FaHeart } from "react-icons/fa";
 import Article from "./Article";
-
+import MypageArticle from "./MypageArticle";
+import { useQuery } from "@tanstack/react-query";
+import { GetMember } from "../api";
+interface IMyInfo {
+  email: string;
+  nickname: string;
+  phone: string;
+}
 export default function Mypage() {
+  const { data } = useQuery<IMyInfo>(["memberInfo"], GetMember);
+
   return (
     <Box
       mt={10}
@@ -12,7 +21,7 @@ export default function Mypage() {
         lg: 40,
       }}
     >
-      <Heading mb={10}>Nickname님 환영합니다!</Heading>
+      <Heading mb={10}>{data?.nickname}님 환영합니다!</Heading>
       <Box paddingX={10} mb={10}>
         <MypageCard />
       </Box>
@@ -35,9 +44,9 @@ export default function Mypage() {
           <Heading size="lg">내가 빌린 내역</Heading>
         </HStack>
         <Grid paddingX={10} columnGap={8} templateColumns={"repeat(3,1fr)"}>
-          <Article />
-          <Article />
-          <Article />
+          <MypageArticle />
+          <MypageArticle />
+          <MypageArticle />
         </Grid>
       </Box>{" "}
       <Box mt={10} mb={200}>
@@ -46,9 +55,9 @@ export default function Mypage() {
           <Heading size="lg">내가 빌려주는 내역</Heading>
         </HStack>
         <Grid paddingX={10} columnGap={8} templateColumns={"repeat(3,1fr)"}>
-          <Article />
-          <Article />
-          <Article />
+          <MypageArticle />
+          <MypageArticle />
+          <MypageArticle />
         </Grid>
       </Box>
     </Box>

@@ -38,8 +38,8 @@ interface IForm {
   phone: string;
 }
 
+//회원가입 후 이상없으면 -> 로그인 성공처리
 export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
-  //회원가입 후 이상없으면 -> 로그인 성공처리
   const {
     register,
     handleSubmit,
@@ -74,7 +74,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
 
   //이메일 중복확인
   const [isEmailDuplicated, SetIsEmailDuplicated] = useState("");
-  const verifyEmail = async () => {
+  const handleVerifyEmail = async () => {
     try {
       const response = await CheckEmailDuplication({
         email: isEmailDuplicated,
@@ -126,7 +126,7 @@ export default function SignUpModal({ isOpen, onClose }: SignUpModalProps) {
               />
               <InputRightElement width="4.5rem">
                 <Button
-                  onClick={verifyEmail}
+                  onClick={handleVerifyEmail}
                   color="gray.600"
                   h="1.75rem"
                   size="sm"

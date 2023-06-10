@@ -32,7 +32,7 @@ export default function Header() {
     onOpen: onSignUpOpen,
   } = useDisclosure();
 
-  //로그아웃 관련
+  //로그아웃 시 로컬스토리지 삭제 후 메인페이지로 이동
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const handleLogout = () => {
@@ -62,7 +62,7 @@ export default function Header() {
       <Box
         color={"gray.700"}
         _hover={{
-          color: "green.700",
+          color: "teal.700",
         }}
       >
         <Link to="/">

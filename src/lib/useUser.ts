@@ -14,7 +14,3 @@ export default function useUser() {
     isLoggedIn: !isError,
   };
 }
-
-// const getMember = () => {
-//   queryClient.refetchQueries(["me"]);
-// };

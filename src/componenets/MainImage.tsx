@@ -7,7 +7,7 @@ export default function MainImage() {
         maxHeight={200}
         minWidth={1600}
         rounded={"3xl"}
-        src="https://github.com/dyjs-js/moreFront/blob/main/image/dsd.jpg?raw=true"
+        src="https://github.com/dyjs-js/moreFront/blob/main/image/Untitled.png?raw=true"
       ></Image>
     </Box>
   );

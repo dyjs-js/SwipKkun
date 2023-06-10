@@ -22,6 +22,10 @@ export default function Footer({
       handleSendMessage();
     }
   };
+
+  const handleClickSend = () => {
+    handleSendMessage();
+  };
   return (
     <Flex w="100%" mt="5">
       <Input
@@ -29,7 +33,7 @@ export default function Footer({
         border="none"
         borderRadius="none"
         _focus={{
-          border: "1px solid black",
+          border: "1px solid green",
         }}
         onKeyPress={handleInputKeyPress}
         value={inputMessage}
@@ -44,6 +48,7 @@ export default function Footer({
           color: "black",
           border: "1px solid black",
         }}
+        onClick={handleClickSend}
       >
         Send
       </Button>
