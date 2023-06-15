@@ -12,4 +12,4 @@
 
 
 # 기술스택
-React, typescript, Chakra UI, React Router , React Query , Axios
+React, typescript, Chakra UI, React Router , React Query , Axios , TanStack
