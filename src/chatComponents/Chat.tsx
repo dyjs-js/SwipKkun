@@ -15,7 +15,7 @@ export default function Chat() {
     { from: "chatbot", text: "안녕하세요 쉽꾼의 챗봇입니다." },
     {
       from: "chatbot",
-      text: "원하시는 물건을 말씀해주시면 추천해드려요.",
+      text: "원하시는 물건을 말씀해주시면 추천해드려요..",
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
